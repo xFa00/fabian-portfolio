@@ -1,65 +1,82 @@
-import Image from "next/image";
-
 export default function Home() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+    <main className="min-h-screen bg-neutral-950 text-white">
+      <nav className="mx-auto flex max-w-6xl items-center justify-between px-6 py-6">
+        <span className="text-xl font-bold">
+          Fabian Chiran<span className="text-emerald-400">.</span>
+        </span>
+
+        <div className="hidden gap-8 text-sm text-neutral-400 md:flex">
+          <a href="#about" className="transition hover:text-white">
+            Sobre mí
+          </a>
+
+          <a href="#experience" className="transition hover:text-white">
+            Experiencia
+          </a>
+
+          <a href="#projects" className="transition hover:text-white">
+            Proyectos
+          </a>
+
+          <a href="#contact" className="transition hover:text-white">
+            Contacto
+          </a>
+        </div>
+      </nav>
+
+      <section className="mx-auto flex min-h-[80vh] max-w-6xl items-center px-6">
+        <div className="max-w-4xl">
+          <p className="mb-5 text-sm font-medium uppercase tracking-[0.25em] text-emerald-400">
+            Ciberseguridad · Cloud · Automatización
           </p>
+
+          <h1 className="text-5xl font-bold leading-tight tracking-tight md:text-7xl">
+            Hola, soy
+            <span className="block text-neutral-400">Fabián Chiran.</span>
+          </h1>
+
+          <p className="mt-8 max-w-2xl text-lg leading-8 text-neutral-400">
+            Ingeniero de Sistemas enfocado en ciberseguridad, infraestructura
+            cloud y automatización. Construyo proyectos que conectan seguridad,
+            datos y tecnología.
+          </p>
+
+          <div className="mt-10 flex flex-wrap gap-4">
+            <a
+              href="#projects"
+              className="rounded-lg bg-emerald-400 px-6 py-3 font-semibold text-neutral-950 transition hover:bg-emerald-300"
+            >
+              Ver proyectos
+            </a>
+
+            <a
+              href="/cv-fabian-chiran.pdf"
+              className="rounded-lg border border-neutral-700 px-6 py-3 font-semibold transition hover:border-neutral-400 hover:bg-neutral-900"
+            >
+              Descargar CV
+            </a>
+          </div>
+
+          <div className="mt-12 flex flex-wrap gap-3 text-sm text-neutral-400">
+            {[
+              "Python",
+              "AWS",
+              "Linux",
+              "SQL",
+              "Ansible",
+              "Cybersecurity",
+            ].map((skill) => (
+              <span
+                key={skill}
+                className="rounded-full border border-neutral-800 bg-neutral-900 px-4 py-2"
+              >
+                {skill}
+              </span>
+            ))}
+          </div>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+      </section>
+    </main>
   );
 }
