@@ -14,7 +14,7 @@ export default function Navbar() {
           href="#home"
           className="font-mono text-sm font-bold tracking-wider text-green-400"
         >
-          fabian@portfolio:~$
+          FABIAN CHIRAN
         </a>
 
         <div className="hidden items-center gap-7 md:flex">

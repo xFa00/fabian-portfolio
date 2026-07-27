@@ -16,14 +16,15 @@ export default function Hero() {
       <div className="absolute inset-0 bg-[linear-gradient(rgba(34,197,94,0.025)_1px,transparent_1px),linear-gradient(90deg,rgba(34,197,94,0.025)_1px,transparent_1px)] bg-[size:40px_40px]" />
 
       <div className="relative mx-auto w-full max-w-6xl">
-        <p className="mb-6 font-mono text-sm text-green-400">
-          <span className="text-neutral-600">fabian@portfolio:~$</span> whoami
+        <p className="mb-6 font-mono text-sm uppercase tracking-[0.25em] text-green-400">
+            Portfolio / Cybersecurity
         </p>
 
         <h1 className="max-w-5xl font-mono text-5xl font-bold leading-tight tracking-tight text-white md:text-7xl lg:text-8xl">
-          Fabián Chiran
-          <span className="animate-pulse text-green-400">.</span>
+            Fabián Chiran
+            <span className="terminal-cursor ml-2 inline-block h-[0.85em] w-[2px] bg-green-400 align-[-0.08em]" />
         </h1>
+
 
         <p className="mt-8 max-w-3xl font-mono text-lg leading-8 text-neutral-400 md:text-xl">
           Ingeniero de Sistemas enfocado en ciberseguridad, infraestructura
