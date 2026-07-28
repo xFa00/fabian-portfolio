@@ -4,6 +4,7 @@ const navigation = [
   { name: "Proyectos", href: "#projects" },
   { name: "Stack", href: "#skills" },
   { name: "Contacto", href: "#contact" },
+  { name: "Certificaciones", href: "#certifications" },
 ];
 
 export default function Navbar() {
