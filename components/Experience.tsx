@@ -4,21 +4,21 @@ const experiences = [
     company: "Bancolombia",
     role: "Ingeniero de Infraestructura — Práctica profesional",
     description:
-      "Automatización de procesos de infraestructura, administración de inventarios tecnológicos y apoyo en entornos empresariales con Ansible, AWS, Azure Arc, Python y SQL.",
+      "Automatización de procesos de infraestructura, validación de servidores, gestión de inventarios tecnológicos y procesamiento de datos mediante Ansible, AWS, Azure Arc, Python y SQL.",
   },
   {
     period: "2024 — 2025",
     company: "Genius Sports",
     role: "Sports Data Operator",
     description:
-      "Gestión y validación de datos deportivos en tiempo real, asegurando precisión, consistencia y cumplimiento de procesos operativos.",
+      "Recopilación, validación y control de calidad de información deportiva utilizada en procesos operativos y soluciones basadas en datos.",
   },
   {
     period: "2023",
     company: "Genius Sports",
     role: "Live Analyst Data",
     description:
-      "Registro y análisis de eventos deportivos en vivo, trabajando bajo presión y con altos estándares de exactitud.",
+      "Registro y análisis de eventos deportivos en tiempo real, trabajando bajo presión y manteniendo altos estándares de precisión.",
   },
 ];
 
@@ -29,12 +29,10 @@ export default function Experience() {
       className="border-t border-green-500/10 px-6 py-24"
     >
       <div className="mx-auto max-w-6xl">
-        <p className="font-mono text-sm text-green-400">
-          02. /experience
-        </p>
+        <p className="font-mono text-sm text-green-400">02. EXPERIENCIA</p>
 
         <h2 className="mt-4 font-mono text-3xl font-bold text-white md:text-4xl">
-          Experiencia
+          Trayectoria profesional
         </h2>
 
         <div className="mt-14 border-l border-neutral-800">

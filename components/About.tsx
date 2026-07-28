@@ -6,12 +6,10 @@ export default function About() {
     >
       <div className="mx-auto grid max-w-6xl gap-12 md:grid-cols-[0.7fr_1.3fr]">
         <div>
-          <p className="font-mono text-sm text-green-400">
-            01. /about
-          </p>
+          <p className="font-mono text-sm text-green-400">01. SOBRE MÍ</p>
 
           <h2 className="mt-4 font-mono text-3xl font-bold text-white md:text-4xl">
-            Sobre mí
+            Perfil profesional
           </h2>
         </div>
 
@@ -19,20 +17,19 @@ export default function About() {
           <p className="font-mono text-base leading-8 text-neutral-400 md:text-lg">
             Soy Ingeniero de Sistemas e Informática con experiencia en
             infraestructura, automatización, análisis de datos y entornos
-            cloud. Actualmente estoy construyendo mi carrera en
-            ciberseguridad, con interés en seguridad cloud, DevSecOps,
-            AppSec y análisis de amenazas.
+            cloud. Actualmente enfoco mi desarrollo profesional en
+            ciberseguridad, seguridad cloud, DevSecOps y AppSec.
           </p>
 
           <p className="mt-6 font-mono text-base leading-8 text-neutral-500">
-            Me interesa entender cómo funcionan los sistemas, automatizar
-            procesos y convertir problemas técnicos complejos en soluciones
+            Me interesa comprender cómo funcionan los sistemas, automatizar
+            procesos y transformar problemas técnicos complejos en soluciones
             prácticas, documentadas y seguras.
           </p>
 
-          <div className="mt-10 grid gap-6 border-t border-neutral-900 pt-8 sm:grid-cols-2">
+          <div className="mt-10 grid gap-8 border-t border-neutral-900 pt-8 sm:grid-cols-2">
             <div>
-              <p className="font-mono text-xs uppercase tracking-widest text-green-400">
+              <p className="font-mono text-xs uppercase tracking-[0.2em] text-green-400">
                 Educación
               </p>
 
@@ -46,8 +43,8 @@ export default function About() {
             </div>
 
             <div>
-              <p className="font-mono text-xs uppercase tracking-widest text-green-400">
-                Enfoque actual
+              <p className="font-mono text-xs uppercase tracking-[0.2em] text-green-400">
+                Enfoque
               </p>
 
               <p className="mt-3 font-mono text-sm text-neutral-300">
