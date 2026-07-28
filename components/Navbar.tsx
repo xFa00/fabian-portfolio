@@ -105,7 +105,7 @@ export default function Navbar() {
 
           <div className="mt-6 flex items-center gap-2 font-mono text-xs text-neutral-600">
             <span className="h-2 w-2 animate-pulse rounded-full bg-green-400" />
-            SYSTEM ONLINE
+            ONLINE
           </div>
         </div>
       </div>
