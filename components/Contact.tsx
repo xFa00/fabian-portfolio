@@ -14,6 +14,12 @@ const contactLinks = [
     value: "linkedin.com/in/fabianchiran",
     href: "https://www.linkedin.com/in/fabian-andres-chiran-guevara-a2054917a/",
   },
+  {
+    label: "CV",
+    value: "Descargar hoja de vida",
+    href: "/cv-fabian-chiran.pdf",
+    target: "_blank",
+  },
 ];
 
 export default function Contact() {
@@ -53,17 +59,21 @@ export default function Contact() {
 
             <div className="mt-8 space-y-3">
               {contactLinks.map((contact) => (
-                <a
-                  key={contact.label}
-                  href={contact.href}
-                  target={contact.href.startsWith("http") ? "_blank" : undefined}
-                  rel={
-                    contact.href.startsWith("http")
-                      ? "noopener noreferrer"
-                      : undefined
-                  }
-                  className="group block border border-neutral-900 bg-neutral-950/30 p-5 transition hover:border-green-400/40"
-                >
+               <a
+                key={contact.label}
+                href={contact.href}
+                target={
+                    contact.target ??
+                    (contact.href.startsWith("http") ? "_blank" : undefined)
+                }
+                rel={
+                    contact.target === "_blank" || contact.href.startsWith("http")
+                        ? "noopener noreferrer"
+                        : undefined
+                }
+                className="group block border border-neutral-900 bg-neutral-950/30 p-5 transition hover:border-green-400/40"
+            >
+                
                   <div className="flex items-center justify-between gap-6">
                     <div>
                       <p className="font-mono text-xs uppercase tracking-[0.2em] text-green-400">

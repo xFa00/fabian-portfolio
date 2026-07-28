@@ -53,12 +53,15 @@ export default function Hero() {
             ./explore_projects
           </a>
 
-          <a
+            <a
             href="/cv-fabian-chiran.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
             className="border border-neutral-700 px-6 py-3 font-mono text-sm text-neutral-300 transition hover:border-green-400 hover:text-green-400"
-          >
-            ./download_cv
+            >
+            Descargar CV
           </a>
+          
         </div>
 
         <div className="mt-12 flex flex-wrap gap-x-6 gap-y-3 font-mono text-xs text-neutral-600">
