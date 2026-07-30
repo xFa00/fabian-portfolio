@@ -17,7 +17,7 @@ export default function TypewriterName() {
       if (currentIndex >= fullName.length) {
         window.clearInterval(interval);
       }
-    }, 115);
+    }, 130);
 
     return () => window.clearInterval(interval);
   }, []);
