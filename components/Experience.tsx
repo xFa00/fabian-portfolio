@@ -1,3 +1,5 @@
+import Reveal from "@/components/Reveal";
+
 const experiences = [
   {
     period: "2026",
@@ -29,38 +31,47 @@ export default function Experience() {
       className="border-t border-green-500/10 px-6 py-24"
     >
       <div className="mx-auto max-w-6xl">
-        <p className="font-mono text-sm text-green-400">02. EXPERIENCIA</p>
+        <Reveal direction="left">
+          <div>
+            <p className="font-mono text-sm text-green-400">
+              02. EXPERIENCIA
+            </p>
 
-        <h2 className="mt-4 font-mono text-3xl font-bold text-white md:text-4xl">
-          Trayectoria profesional
-        </h2>
+            <h2 className="mt-4 font-mono text-3xl font-bold text-white md:text-4xl">
+              Trayectoria profesional
+            </h2>
+          </div>
+        </Reveal>
 
         <div className="mt-14 border-l border-neutral-800">
-          {experiences.map((experience) => (
-            <article
+          {experiences.map((experience, index) => (
+            <Reveal
               key={`${experience.company}-${experience.period}`}
-              className="relative border-b border-neutral-900 py-10 pl-8 md:grid md:grid-cols-[180px_1fr] md:gap-10"
+              direction="up"
+              delay={index * 180}
             >
-              <span className="absolute -left-[5px] top-12 h-2.5 w-2.5 rounded-full border border-green-400 bg-black" />
+              <article className="relative border-b border-neutral-900 py-10 pl-8 md:grid md:grid-cols-[180px_1fr] md:gap-10">
+                <span className="absolute -left-[5px] top-12 h-2.5 w-2.5 rounded-full border border-green-400 bg-black shadow-[0_0_12px_rgba(34,197,94,0.25)]" />
 
-              <p className="font-mono text-sm text-green-400">
-                {experience.period}
-              </p>
-
-              <div className="mt-4 md:mt-0">
-                <h3 className="font-mono text-xl font-bold text-white">
-                  {experience.company}
-                </h3>
-
-                <p className="mt-2 font-mono text-sm text-neutral-300">
-                  {experience.role}
+                <p className="font-mono text-sm text-green-400">
+                  {experience.period}
                 </p>
 
-                <p className="mt-5 max-w-3xl font-mono text-sm leading-7 text-neutral-500">
-                  {experience.description}
-                </p>
-              </div>
-            </article>
+                <div className="mt-4 md:mt-0">
+                  <h3 className="font-mono text-xl font-bold text-white">
+                    {experience.company}
+                  </h3>
+
+                  <p className="mt-2 font-mono text-sm text-neutral-300">
+                    {experience.role}
+                  </p>
+
+                  <p className="mt-5 max-w-3xl font-mono text-sm leading-7 text-neutral-500">
+                    {experience.description}
+                  </p>
+                </div>
+              </article>
+            </Reveal>
           ))}
         </div>
       </div>

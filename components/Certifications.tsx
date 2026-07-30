@@ -1,3 +1,5 @@
+import Reveal from "@/components/Reveal";
+
 const certifications = [
   {
     name: "JavaScript Essentials 1",
@@ -57,66 +59,75 @@ export default function Certifications() {
       className="border-t border-green-500/10 px-6 py-24"
     >
       <div className="mx-auto max-w-6xl">
-        <p className="font-mono text-sm text-green-400">
-          05. CERTIFICACIONES
-        </p>
+        <Reveal direction="left">
+          <div>
+            <p className="font-mono text-sm text-green-400">
+              05. CERTIFICACIONES
+            </p>
 
-        <h2 className="mt-4 font-mono text-3xl font-bold text-white md:text-4xl">
-          Formación y credenciales
-        </h2>
+            <h2 className="mt-4 font-mono text-3xl font-bold text-white md:text-4xl">
+              Formación y credenciales
+            </h2>
 
-        <p className="mt-5 max-w-3xl font-mono text-sm leading-7 text-neutral-500">
-          Certificaciones y cursos orientados a desarrollo, análisis de datos,
-          redes, inteligencia artificial y computación en la nube.
-        </p>
+            <p className="mt-5 max-w-3xl font-mono text-sm leading-7 text-neutral-500">
+              Certificaciones y cursos orientados a desarrollo, análisis de
+              datos, redes, inteligencia artificial y computación en la nube.
+            </p>
+          </div>
+        </Reveal>
 
         <div className="mt-14 grid gap-4 md:grid-cols-2">
-          {certifications.map((certification) => {
+          {certifications.map((certification, index) => {
             const isCompleted = certification.status === "OBTENIDA";
 
             return (
-              <a
+              <Reveal
                 key={certification.name}
-                href={certification.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group relative overflow-hidden border border-neutral-900 bg-neutral-950/40 p-6 transition duration-300 hover:-translate-y-1 hover:border-green-400/50"
+                direction="up"
+                delay={(index % 4) * 120}
               >
-                <div className="flex items-start justify-between gap-6">
-                  <div>
-                    <p className="font-mono text-xs uppercase tracking-[0.2em] text-neutral-600">
-                      {certification.provider}
-                    </p>
+                <a
+                  href={certification.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group relative block h-full overflow-hidden border border-neutral-900 bg-neutral-950/40 p-6 transition duration-300 hover:-translate-y-1 hover:border-green-400/50"
+                >
+                  <div className="flex items-start justify-between gap-6">
+                    <div>
+                      <p className="font-mono text-xs uppercase tracking-[0.2em] text-neutral-600">
+                        {certification.provider}
+                      </p>
 
-                    <h3 className="mt-3 font-mono text-base font-bold leading-7 text-white transition group-hover:text-green-400">
-                      {certification.name}
-                    </h3>
+                      <h3 className="mt-3 font-mono text-base font-bold leading-7 text-white transition group-hover:text-green-400">
+                        {certification.name}
+                      </h3>
+                    </div>
+
+                    <span
+                      className={`shrink-0 border px-2 py-1 font-mono text-[10px] tracking-widest ${
+                        isCompleted
+                          ? "border-green-400/30 text-green-400"
+                          : "border-yellow-500/30 text-yellow-400"
+                      }`}
+                    >
+                      {isCompleted ? "✓ VERIFICADA" : certification.status}
+                    </span>
                   </div>
 
-                  <span
-                    className={`shrink-0 border px-2 py-1 font-mono text-[10px] tracking-widest ${
-                      isCompleted
-                        ? "border-green-400/30 text-green-400"
-                        : "border-yellow-500/30 text-yellow-400"
-                    }`}
-                  >
-                    {certification.status}
-                  </span>
-                </div>
+                  <div className="mt-8 flex items-center justify-between border-t border-neutral-900 pt-5">
+                    <span className="font-mono text-xs text-neutral-600">
+                      {certification.year}
+                    </span>
 
-                <div className="mt-8 flex items-center justify-between border-t border-neutral-900 pt-5">
-                  <span className="font-mono text-xs text-neutral-600">
-                    {certification.year}
-                  </span>
+                    <span className="font-mono text-xs text-neutral-500 transition group-hover:text-green-400">
+                      {isCompleted ? "Ver credencial" : "Ver certificación"}
+                      <span className="ml-2">↗</span>
+                    </span>
+                  </div>
 
-                  <span className="font-mono text-xs text-neutral-500 transition group-hover:text-green-400">
-                    {isCompleted ? "Ver credencial" : "Ver certificación"}
-                    <span className="ml-2">↗</span>
-                  </span>
-                </div>
-
-                <span className="absolute bottom-0 left-0 h-px w-0 bg-green-400 transition-all duration-500 group-hover:w-full" />
-              </a>
+                  <span className="absolute bottom-0 left-0 h-px w-0 bg-green-400 transition-all duration-500 group-hover:w-full" />
+                </a>
+              </Reveal>
             );
           })}
         </div>

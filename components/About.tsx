@@ -17,7 +17,7 @@ export default function About() {
           </div>
         </Reveal>
 
-        <Reveal direction="right" delay={150}>
+        <Reveal direction="right" delay={300}>
           <div>
             <p className="font-mono text-base leading-8 text-neutral-400 md:text-lg">
               Soy Ingeniero de Sistemas e Informática con experiencia en

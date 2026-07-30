@@ -1,3 +1,4 @@
+import TypewriterName from "@/components/TypewriterName";
 export default function Hero() {
   const skills = [
     "Python",
@@ -92,9 +93,8 @@ export default function Hero() {
           Portfolio / Cybersecurity
         </p>
 
-        <h1 className="max-w-5xl font-mono text-5xl font-bold leading-tight tracking-tight text-white md:text-7xl lg:text-8xl">
-          Fabián Chiran
-          <span className="terminal-cursor ml-2 inline-block h-[0.85em] w-[2px] bg-green-400 align-[-0.08em]" />
+        <h1 className="max-w-5xl min-h-[1.2em] font-mono text-5xl font-bold leading-tight tracking-tight text-white md:text-7xl lg:text-8xl">
+          <TypewriterName />
         </h1>
 
         <p className="mt-8 max-w-3xl font-mono text-lg leading-8 text-neutral-400 md:text-xl">
