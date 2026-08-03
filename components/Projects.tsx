@@ -1,72 +1,193 @@
+"use client";
+
 import AnimatedProgress from "@/components/AnimatedProgress";
 import Reveal from "@/components/Reveal";
+import { useLanguage } from "@/context/LanguageContext";
 
-const projects = [
+type Project = {
+  number: string;
+  title: string;
+  status: string;
+  progress: number;
+  description: string;
+  details: string;
+  technologies: string[];
+  repository: string;
+};
+
+const content: Record<
+  "es" | "en",
   {
-    number: "01",
-    title: "Urkunina Scan",
-    status: "EN PROGRESO",
-    progress: 18,
-    description:
-      "Plataforma modular para descubrir, correlacionar, priorizar y reportar vulnerabilidades en pequeñas organizaciones.",
-    details:
-      "Permitirá analizar IPs, dominios, URLs y repositorios mediante herramientas como Nmap y Nuclei, correlacionando hallazgos y organizándolos según severidad, exposición y contexto.",
-    technologies: [
-      "Python",
-      "FastAPI",
-      "Nmap",
-      "Nuclei",
-      "PostgreSQL",
-      "Docker",
+    sectionLabel: string;
+    title: string;
+    introduction: string;
+    progressLabel: string;
+    repositoryAvailable: string;
+    repositorySoon: string;
+    projects: Project[];
+    classified: {
+      number: string;
+      title: string;
+      status: string;
+      description: string;
+      access: string;
+      clearance: string;
+    };
+  }
+> = {
+  es: {
+    sectionLabel: "03. PROYECTOS",
+    title: "Proyectos en construcción",
+    introduction:
+      "Proyectos personales desarrollados de manera progresiva para aplicar conocimientos de ciberseguridad, desarrollo de software y análisis de datos.",
+    progressLabel: "progreso_del_proyecto",
+    repositoryAvailable: "Ver repositorio",
+    repositorySoon: "Repositorio próximamente",
+
+    projects: [
+      {
+        number: "01",
+        title: "Urkunina Scan",
+        status: "EN PROGRESO",
+        progress: 18,
+        description:
+          "Plataforma modular para descubrir, correlacionar, priorizar y reportar vulnerabilidades en pequeñas organizaciones.",
+        details:
+          "Permitirá analizar direcciones IP, dominios, URLs y repositorios mediante herramientas como Nmap y Nuclei, correlacionando hallazgos y organizándolos según severidad, exposición y contexto.",
+        technologies: [
+          "Python",
+          "FastAPI",
+          "Nmap",
+          "Nuclei",
+          "PostgreSQL",
+          "Docker",
+        ],
+        repository: "",
+      },
+
+      {
+        number: "02",
+        title: "Data Volcánica",
+        status: "EN PROGRESO",
+        progress: 10,
+        description:
+          "Plataforma independiente de análisis de datos enfocada inicialmente en Deportivo Pasto y el fútbol colombiano.",
+        details:
+          "El proyecto busca transformar estadísticas, resultados y datos deportivos en visualizaciones, análisis y contenidos comprensibles para aficionados, periodistas y comunidades futboleras.",
+        technologies: [
+          "Python",
+          "Pandas",
+          "Next.js",
+          "TypeScript",
+          "PostgreSQL",
+          "Data Visualization",
+        ],
+        repository: "",
+      },
     ],
-    repository: "",
+
+    classified: {
+      number: "03",
+      title: "Proyecto clasificado",
+      status: "PRÓXIMAMENTE",
+      description:
+        "Nueva iniciativa en fase de exploración. Los detalles serán publicados cuando comience su desarrollo.",
+      access: "[ ACCESO RESTRINGIDO ]",
+      clearance: "AUTORIZACIÓN_REQUERIDA",
+    },
   },
-  {
-    number: "02",
-    title: "Data Volcánica",
-    status: "EN PROGRESO",
-    progress: 10,
-    description:
-      "Plataforma independiente de análisis de datos enfocada inicialmente en Deportivo Pasto y el fútbol colombiano.",
-    details:
-      "El proyecto busca transformar estadísticas, resultados y datos deportivos en visualizaciones, análisis y contenidos comprensibles para aficionados, periodistas y comunidades futboleras.",
-    technologies: [
-      "Python",
-      "Pandas",
-      "Next.js",
-      "TypeScript",
-      "PostgreSQL",
-      "Data Visualization",
+
+  en: {
+    sectionLabel: "03. PROJECTS",
+    title: "Projects in development",
+    introduction:
+      "Personal projects developed progressively to apply cybersecurity, software development, and data analysis knowledge.",
+    progressLabel: "project_progress",
+    repositoryAvailable: "View repository",
+    repositorySoon: "Repository coming soon",
+
+    projects: [
+      {
+        number: "01",
+        title: "Urkunina Scan",
+        status: "IN PROGRESS",
+        progress: 18,
+        description:
+          "A modular platform designed to discover, correlate, prioritize, and report vulnerabilities for small organizations.",
+        details:
+          "It will analyze IP addresses, domains, URLs, and repositories using tools such as Nmap and Nuclei, correlating findings and organizing them according to severity, exposure, and context.",
+        technologies: [
+          "Python",
+          "FastAPI",
+          "Nmap",
+          "Nuclei",
+          "PostgreSQL",
+          "Docker",
+        ],
+        repository: "",
+      },
+
+      {
+        number: "02",
+        title: "Data Volcánica",
+        status: "IN PROGRESS",
+        progress: 10,
+        description:
+          "An independent data analytics platform initially focused on Deportivo Pasto and Colombian football.",
+        details:
+          "The project aims to transform statistics, results, and sports data into visualizations, analyses, and accessible content for supporters, journalists, and football communities.",
+        technologies: [
+          "Python",
+          "Pandas",
+          "Next.js",
+          "TypeScript",
+          "PostgreSQL",
+          "Data Visualization",
+        ],
+        repository: "",
+      },
     ],
-    repository: "",
+
+    classified: {
+      number: "03",
+      title: "Classified project",
+      status: "COMING SOON",
+      description:
+        "A new initiative currently in the exploration phase. Details will be published once development begins.",
+      access: "[ RESTRICTED ACCESS ]",
+      clearance: "CLEARANCE_REQUIRED",
+    },
   },
-];
+};
 
 export default function Projects() {
+  const { language } = useLanguage();
+  const text = content[language];
+
   return (
     <section
       id="projects"
-      className="border-t border-green-500/10 px-6 py-24"
+      className="border-t border-green-500/10 px-6 py-24 md:py-32"
     >
       <div className="mx-auto max-w-6xl">
         <Reveal direction="left">
           <div>
-            <p className="font-mono text-sm text-green-400">03. PROYECTOS</p>
+            <p className="font-mono text-sm text-green-400">
+              {text.sectionLabel}
+            </p>
 
             <h2 className="mt-4 font-mono text-3xl font-bold text-white md:text-4xl">
-              Proyectos en construcción
+              {text.title}
             </h2>
 
-            <p className="mt-5 max-w-3xl font-mono text-sm leading-7 text-neutral-500">
-              Proyectos personales construidos de manera progresiva para
-              aplicar conocimientos de ciberseguridad, desarrollo de software y
-              análisis de datos.
+            <p className="mt-5 max-w-3xl font-mono text-sm leading-7 text-neutral-500 md:text-base">
+              {text.introduction}
             </p>
           </div>
         </Reveal>
 
         <div className="mt-14 space-y-6">
-          {projects.map((project, index) => (
+          {text.projects.map((project, index) => (
             <Reveal
               key={project.title}
               direction={index % 2 === 0 ? "left" : "right"}
@@ -92,6 +213,7 @@ export default function Projects() {
 
                       <span className="flex items-center gap-2 border border-green-400/30 px-2 py-1 font-mono text-[10px] tracking-widest text-green-400">
                         <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-green-400" />
+
                         {project.status}
                       </span>
                     </div>
@@ -120,6 +242,7 @@ export default function Projects() {
                     <AnimatedProgress
                       value={project.progress}
                       delay={index * 250}
+                      label={text.progressLabel}
                     />
 
                     {project.repository ? (
@@ -129,12 +252,12 @@ export default function Projects() {
                         rel="noopener noreferrer"
                         className="mt-8 self-start font-mono text-sm text-neutral-400 transition hover:text-green-400 md:self-end"
                       >
-                        Ver repositorio
+                        {text.repositoryAvailable}
                         <span className="ml-2 text-green-400">↗</span>
                       </a>
                     ) : (
                       <span className="mt-8 self-start font-mono text-sm text-neutral-700 md:self-end">
-                        Repositorio próximamente
+                        {text.repositorySoon}
                       </span>
                     )}
                   </div>
@@ -155,34 +278,33 @@ export default function Projects() {
               </div>
 
               <div className="absolute right-5 top-4 font-mono text-5xl font-bold text-neutral-900 transition duration-500 group-hover:text-green-400/10 md:text-7xl">
-                03
+                {text.classified.number}
               </div>
 
               <div className="relative flex min-h-48 flex-col justify-between">
                 <div>
                   <div className="flex flex-wrap items-center gap-4">
                     <h3 className="font-mono text-2xl font-bold text-neutral-500 transition duration-500 group-hover:text-neutral-300 md:text-3xl">
-                      Proyecto clasificado
+                      {text.classified.title}
                     </h3>
 
                     <span className="border border-neutral-800 px-2 py-1 font-mono text-[10px] tracking-widest text-neutral-600 transition duration-500 group-hover:border-green-400/30 group-hover:text-green-400">
-                      PRÓXIMAMENTE
+                      {text.classified.status}
                     </span>
                   </div>
 
                   <p className="mt-5 max-w-2xl font-mono text-sm leading-7 text-neutral-700 transition duration-500 group-hover:text-neutral-500">
-                    Nueva iniciativa en fase de exploración. Los detalles serán
-                    publicados cuando comience su desarrollo.
+                    {text.classified.description}
                   </p>
                 </div>
 
-                <div className="mt-10 flex items-center justify-between">
-                  <p className="font-mono text-xs tracking-[0.25em] text-neutral-800 transition duration-500 group-hover:text-green-400/50">
-                    [ ACCESS RESTRICTED ]
+                <div className="mt-10 flex items-center justify-between gap-4">
+                  <p className="font-mono text-xs tracking-[0.2em] text-neutral-800 transition duration-500 group-hover:text-green-400/50 sm:tracking-[0.25em]">
+                    {text.classified.access}
                   </p>
 
-                  <span className="font-mono text-[10px] text-neutral-900 opacity-0 transition duration-500 group-hover:text-green-400/40 group-hover:opacity-100">
-                    CLEARANCE_REQUIRED
+                  <span className="hidden font-mono text-[10px] text-neutral-900 opacity-0 transition duration-500 group-hover:text-green-400/40 group-hover:opacity-100 sm:inline">
+                    {text.classified.clearance}
                   </span>
                 </div>
               </div>

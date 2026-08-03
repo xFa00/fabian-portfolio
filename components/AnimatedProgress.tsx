@@ -5,13 +5,18 @@ import { useEffect, useRef, useState } from "react";
 type AnimatedProgressProps = {
   value: number;
   delay?: number;
+  label?: string;
 };
 
 export default function AnimatedProgress({
   value,
   delay = 0,
+  label = "project_progress",
 }: AnimatedProgressProps) {
   const containerRef = useRef<HTMLDivElement>(null);
+  const timeoutRef = useRef<number | null>(null);
+  const animationFrameRef = useRef<number | null>(null);
+
   const [isVisible, setIsVisible] = useState(false);
   const [displayedValue, setDisplayedValue] = useState(0);
 
@@ -22,13 +27,13 @@ export default function AnimatedProgress({
 
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) {
-          window.setTimeout(() => {
-            setIsVisible(true);
-          }, delay);
+        if (!entry.isIntersecting) return;
 
-          observer.disconnect();
-        }
+        timeoutRef.current = window.setTimeout(() => {
+          setIsVisible(true);
+        }, delay);
+
+        observer.disconnect();
       },
       {
         threshold: 0.35,
@@ -37,7 +42,13 @@ export default function AnimatedProgress({
 
     observer.observe(element);
 
-    return () => observer.disconnect();
+    return () => {
+      observer.disconnect();
+
+      if (timeoutRef.current !== null) {
+        window.clearTimeout(timeoutRef.current);
+      }
+    };
   }, [delay]);
 
   useEffect(() => {
@@ -49,31 +60,42 @@ export default function AnimatedProgress({
     const animateCounter = (currentTime: number) => {
       const elapsed = currentTime - startTime;
       const progress = Math.min(elapsed / duration, 1);
-
       const easedProgress = 1 - Math.pow(1 - progress, 3);
-      const currentValue = Math.round(value * easedProgress);
 
-      setDisplayedValue(currentValue);
+      setDisplayedValue(Math.round(value * easedProgress));
 
       if (progress < 1) {
-        requestAnimationFrame(animateCounter);
+        animationFrameRef.current =
+          window.requestAnimationFrame(animateCounter);
       }
     };
 
-    const animationFrame = requestAnimationFrame(animateCounter);
+    animationFrameRef.current =
+      window.requestAnimationFrame(animateCounter);
 
-    return () => cancelAnimationFrame(animationFrame);
+    return () => {
+      if (animationFrameRef.current !== null) {
+        window.cancelAnimationFrame(animationFrameRef.current);
+      }
+    };
   }, [isVisible, value]);
 
   return (
     <div ref={containerRef}>
-      <div className="mb-3 flex items-center justify-between font-mono text-xs">
-        <span className="text-neutral-600">project_progress</span>
+      <div className="mb-3 flex items-center justify-between gap-4 font-mono text-xs">
+        <span className="text-neutral-600">{label}</span>
 
         <span className="text-green-400">{displayedValue}%</span>
       </div>
 
-      <div className="h-1.5 overflow-hidden bg-neutral-900">
+      <div
+        role="progressbar"
+        aria-valuemin={0}
+        aria-valuemax={100}
+        aria-valuenow={displayedValue}
+        aria-label={label}
+        className="h-1.5 overflow-hidden bg-neutral-900"
+      >
         <div
           className="h-full origin-left bg-green-400 transition-transform duration-[1400ms] ease-out"
           style={{

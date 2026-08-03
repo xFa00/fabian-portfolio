@@ -1,6 +1,42 @@
+"use client";
+
 import TypewriterName from "@/components/TypewriterName";
+import { useLanguage } from "@/context/LanguageContext";
+
+const content = {
+  es: {
+    eyebrow: "Portafolio / Ciberseguridad",
+    description:
+      "Ingeniero de Sistemas enfocado en ciberseguridad, infraestructura cloud, automatización y análisis de datos.",
+    locationLabel: "ubicación",
+    location: "Medellín, Colombia",
+    statusLabel: "estado",
+    status: "disponible para oportunidades",
+    projectLabel: "proyecto_actual",
+    project: "Urkunina Scan",
+    projectsButton: "Explorar proyectos",
+    cvButton: "Descargar CV",
+  },
+
+  en: {
+    eyebrow: "Portfolio / Cybersecurity",
+    description:
+      "Systems Engineer focused on cybersecurity, cloud infrastructure, automation, and data analysis.",
+    locationLabel: "location",
+    location: "Medellín, Colombia",
+    statusLabel: "status",
+    status: "available for opportunities",
+    projectLabel: "current_project",
+    project: "Urkunina Scan",
+    projectsButton: "Explore projects",
+    cvButton: "Download CV",
+  },
+};
 
 export default function Hero() {
+  const { language } = useLanguage();
+  const text = content[language];
+
   const skills = [
     "Python",
     "AWS",
@@ -21,13 +57,13 @@ export default function Hero() {
         className="absolute inset-0 bg-[linear-gradient(rgba(34,197,94,0.025)_1px,transparent_1px),linear-gradient(90deg,rgba(34,197,94,0.025)_1px,transparent_1px)] bg-[size:40px_40px]"
       />
 
-      {/* Oscurecimiento para mantener legible el contenido */}
+      {/* Oscurecimiento del fondo */}
       <div
         aria-hidden="true"
         className="absolute inset-0 bg-gradient-to-b from-black/10 via-black/30 to-black"
       />
 
-      {/* Silueta sutil del Galeras */}
+      {/* Silueta del Galeras */}
       <div
         aria-hidden="true"
         className="galeras-reveal pointer-events-none absolute inset-x-0 bottom-0 z-0 h-[34vh] opacity-80 md:h-[44vh]"
@@ -67,7 +103,6 @@ export default function Hero() {
             </filter>
           </defs>
 
-          {/* Relleno del volcán */}
           <path
             d="
               M0 500
@@ -92,7 +127,6 @@ export default function Hero() {
             fill="url(#galerasFill)"
           />
 
-          {/* Contorno del volcán */}
           <path
             d="
               M0 410
@@ -122,7 +156,7 @@ export default function Hero() {
       {/* Contenido principal */}
       <div className="relative z-10 mx-auto w-full max-w-6xl">
         <p className="hero-step hero-step-1 mb-6 font-mono text-xs uppercase tracking-[0.25em] text-green-400 sm:text-sm">
-          Portfolio / Cybersecurity
+          {text.eyebrow}
         </p>
 
         <h1 className="hero-step hero-step-2 min-h-[1.2em] max-w-5xl font-mono text-4xl font-bold leading-tight tracking-tight text-white sm:text-5xl md:text-7xl lg:text-8xl">
@@ -130,23 +164,27 @@ export default function Hero() {
         </h1>
 
         <p className="hero-step hero-step-3 mt-7 max-w-3xl font-mono text-base leading-8 text-neutral-400 md:mt-8 md:text-xl">
-          Ingeniero de Sistemas enfocado en ciberseguridad, infraestructura
-          cloud, automatización y análisis de datos.
+          {text.description}
         </p>
 
         <div className="hero-step hero-step-4 mt-8 border-l border-green-400/50 pl-5 font-mono text-xs leading-7 text-neutral-500 sm:text-sm">
           <p>
-            <span className="text-green-400">location:</span> Medellín, Colombia
+            <span className="text-green-400">
+              {text.locationLabel}:
+            </span>{" "}
+            {text.location}
           </p>
 
           <p>
-            <span className="text-green-400">status:</span> disponible para
-            oportunidades
+            <span className="text-green-400">{text.statusLabel}:</span>{" "}
+            {text.status}
           </p>
 
           <p>
-            <span className="text-green-400">current_project:</span> Urkunina
-            Scan
+            <span className="text-green-400">
+              {text.projectLabel}:
+            </span>{" "}
+            {text.project}
           </p>
         </div>
 
@@ -155,7 +193,7 @@ export default function Hero() {
             href="#projects"
             className="border border-green-400 bg-green-400 px-6 py-3 text-center font-mono text-sm font-bold text-black transition duration-300 hover:bg-transparent hover:text-green-400"
           >
-            Explorar proyectos
+            {text.projectsButton}
           </a>
 
           <a
@@ -164,7 +202,7 @@ export default function Hero() {
             rel="noopener noreferrer"
             className="border border-neutral-700 px-6 py-3 text-center font-mono text-sm text-neutral-300 transition duration-300 hover:border-green-400 hover:text-green-400"
           >
-            Descargar CV
+            {text.cvButton}
           </a>
         </div>
 

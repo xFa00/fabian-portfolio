@@ -7,14 +7,16 @@ import {
   useRef,
   useState,
 } from "react";
+import { useLanguage } from "@/context/LanguageContext";
 
 type HistoryEntry = {
   command: string;
   response: string;
 };
 
-const responses: Record<string, string> = {
-  help: `
+const responses = {
+  es: {
+    help: `
 Comandos disponibles:
 
 whoami          Información general
@@ -28,23 +30,23 @@ cv              Abrir hoja de vida
 github          Abrir GitHub
 linkedin        Abrir LinkedIn
 clear           Limpiar consola
-  `.trim(),
+    `.trim(),
 
-  whoami: `
+    whoami: `
 Fabián Chiran
 Ingeniero de Sistemas e Informática.
 
-FOCUS
+ENFOQUE
 Ciberseguridad · Cloud · Automatización · Datos
 
-LOCATION
+UBICACIÓN
 Medellín, Colombia
 
-STATUS
+ESTADO
 Disponible para oportunidades
-  `.trim(),
+    `.trim(),
 
-  about: `
+    about: `
 Ingeniero de Sistemas e Informática con experiencia en infraestructura,
 automatización, análisis de datos y entornos cloud.
 
@@ -55,9 +57,9 @@ Actualmente construye su carrera en ciberseguridad, con interés en:
 • AppSec
 • Threat Hunting
 • Automatización de seguridad
-  `.trim(),
+    `.trim(),
 
-  experience: `
+    experience: `
 BANCOLOMBIA — 2026
 Ingeniero de Infraestructura · Práctica profesional
 
@@ -73,9 +75,9 @@ GENIUS SPORTS — 2023
 Live Analyst Data
 
 Registro y análisis de eventos deportivos en tiempo real.
-  `.trim(),
+    `.trim(),
 
-  projects: `
+    projects: `
 01 — URKUNINA SCAN
 Plataforma modular de descubrimiento, correlación y priorización
 de vulnerabilidades.
@@ -92,24 +94,24 @@ Estado: En progreso
 
 03 — PROYECTO CLASIFICADO
 Nueva iniciativa actualmente en exploración.
-  `.trim(),
+    `.trim(),
 
-  skills: `
-LANGUAGES
+    skills: `
+LENGUAJES
 Python · SQL · TypeScript · JavaScript · Bash · PowerShell
 
-CYBERSECURITY
+CIBERSEGURIDAD
 Nmap · Nuclei · Tenable · MITRE ATT&CK
 Threat Hunting · Gestión de vulnerabilidades
 
-CLOUD & INFRASTRUCTURE
+CLOUD E INFRAESTRUCTURA
 AWS · Azure Arc · Ansible · Linux · Docker · DNS
 
-DATA
+DATOS
 Pandas · MySQL · PostgreSQL · Power BI · Tableau · Jupyter
-  `.trim(),
+    `.trim(),
 
-  certifications: `
+    certifications: `
 OBTENIDAS
 
 ✓ JavaScript Essentials 1
@@ -123,9 +125,139 @@ EN PREPARACIÓN
 
 • AWS Certified Cloud Practitioner
 • AWS Certified AI Practitioner
-  `.trim(),
+    `.trim(),
 
-  contact: `
+    contact: `
+CORREO
+contacto@fabianchiran.dev
+
+GITHUB
+github.com/xFa00
+
+LINKEDIN
+linkedin.com/in/fabian-andres-chiran-guevara-a2054917a
+
+UBICACIÓN
+Medellín, Colombia
+
+MODALIDAD
+Presencial · Híbrida · Remota
+    `.trim(),
+  },
+
+  en: {
+    help: `
+Available commands:
+
+whoami          General information
+about           Professional profile
+experience      Work experience
+projects        Current projects
+skills          Technical skills
+certifications  Certifications
+contact         Contact information
+cv              Open résumé
+github          Open GitHub
+linkedin        Open LinkedIn
+clear           Clear console
+    `.trim(),
+
+    whoami: `
+Fabián Chiran
+Systems and Computer Engineer.
+
+FOCUS
+Cybersecurity · Cloud · Automation · Data
+
+LOCATION
+Medellín, Colombia
+
+STATUS
+Available for opportunities
+    `.trim(),
+
+    about: `
+Systems and Computer Engineer with experience in infrastructure,
+automation, data analysis, and cloud environments.
+
+Currently building a career in cybersecurity, with an interest in:
+
+• Cloud Security
+• DevSecOps
+• AppSec
+• Threat Hunting
+• Security Automation
+    `.trim(),
+
+    experience: `
+BANCOLOMBIA — 2026
+Infrastructure Engineer · Professional internship
+
+Process automation, Ansible Automation Platform, AWS,
+Azure Arc, Python, SQL, DNS, and technology inventories.
+
+GENIUS SPORTS — 2024–2025
+Sports Data Operator
+
+Validation, quality control, and processing of sports information.
+
+GENIUS SPORTS — 2023
+Live Data Analyst
+
+Real-time recording and analysis of sports events.
+    `.trim(),
+
+    projects: `
+01 — URKUNINA SCAN
+Modular vulnerability discovery, correlation, and prioritization
+platform.
+
+Status: In progress
+
+
+02 — DATA VOLCÁNICA
+Data analytics platform initially focused on
+Deportivo Pasto and Colombian football.
+
+Status: In progress
+
+
+03 — CLASSIFIED PROJECT
+New initiative currently under exploration.
+    `.trim(),
+
+    skills: `
+LANGUAGES
+Python · SQL · TypeScript · JavaScript · Bash · PowerShell
+
+CYBERSECURITY
+Nmap · Nuclei · Tenable · MITRE ATT&CK
+Threat Hunting · Vulnerability Management
+
+CLOUD AND INFRASTRUCTURE
+AWS · Azure Arc · Ansible · Linux · Docker · DNS
+
+DATA
+Pandas · MySQL · PostgreSQL · Power BI · Tableau · Jupyter
+    `.trim(),
+
+    certifications: `
+COMPLETED
+
+✓ JavaScript Essentials 1
+✓ Applied Machine Learning in Python
+✓ Introduction to Data Science in Python
+✓ CCNA: Introduction to Networks
+✓ Google Cloud Computing Foundations
+
+
+IN PREPARATION
+
+• AWS Certified Cloud Practitioner
+• AWS Certified AI Practitioner
+    `.trim(),
+
+    contact: `
 EMAIL
 contacto@fabianchiran.dev
 
@@ -138,9 +270,52 @@ linkedin.com/in/fabian-andres-chiran-guevara-a2054917a
 LOCATION
 Medellín, Colombia
 
-MODALITY
-Presencial · Híbrida · Remota
-  `.trim(),
+WORK MODE
+On-site · Hybrid · Remote
+    `.trim(),
+  },
+};
+
+const interfaceText = {
+  es: {
+    initialMessage:
+      'Portfolio Console inicializada.\nEscribe "help" para consultar los comandos.',
+    consoleLabel: "Consola del portafolio",
+    consoleSubtitle: "Interfaz interactiva del perfil",
+    openConsole: "Abrir consola del portafolio",
+    closeConsole: "Cerrar consola",
+    inputLabel: "Comando",
+    inputPlaceholder: "Escribe un comando...",
+    execute: "EJECUTAR",
+    unknownCommand: "Comando desconocido",
+    unknownHelp: 'Escribe "help" para ver las opciones.',
+    clearMessage: "Consola limpia.",
+    openCv: "Abriendo hoja de vida...",
+    openGithub: "Abriendo perfil de GitHub...",
+    openLinkedin: "Abriendo perfil de LinkedIn...",
+    historyHint: "↑ ↓ historial de comandos",
+    shortcutHint: "⌘ K abrir · ESC cerrar",
+  },
+
+  en: {
+    initialMessage:
+      'Portfolio Console initialized.\nType "help" to view the available commands.',
+    consoleLabel: "Portfolio console",
+    consoleSubtitle: "Interactive profile interface",
+    openConsole: "Open portfolio console",
+    closeConsole: "Close console",
+    inputLabel: "Command",
+    inputPlaceholder: "Type a command...",
+    execute: "EXECUTE",
+    unknownCommand: "Unknown command",
+    unknownHelp: 'Type "help" to view the available options.',
+    clearMessage: "Console cleared.",
+    openCv: "Opening résumé...",
+    openGithub: "Opening GitHub profile...",
+    openLinkedin: "Opening LinkedIn profile...",
+    historyHint: "↑ ↓ command history",
+    shortcutHint: "⌘ K toggle · ESC close",
+  },
 };
 
 const quickCommands = [
@@ -153,13 +328,16 @@ const quickCommands = [
 ];
 
 export default function CommandConsole() {
+  const { language } = useLanguage();
+  const text = interfaceText[language];
+  const commandResponses = responses[language];
+
   const [isOpen, setIsOpen] = useState(false);
   const [input, setInput] = useState("");
   const [history, setHistory] = useState<HistoryEntry[]>([
     {
       command: "system",
-      response:
-        'Portfolio Console inicializada.\nEscribe "help" para consultar los comandos.',
+      response: text.initialMessage,
     },
   ]);
 
@@ -208,7 +386,7 @@ export default function CommandConsole() {
       setHistory([
         {
           command: "system",
-          response: "Consola limpia.",
+          response: text.clearMessage,
         },
       ]);
 
@@ -216,31 +394,32 @@ export default function CommandConsole() {
     }
 
     if (command === "cv") {
-      addHistoryEntry(command, "Abriendo hoja de vida...");
+      addHistoryEntry(command, text.openCv);
       openExternalLink("/cv-fabian-chiran.pdf");
       return;
     }
 
     if (command === "github") {
-      addHistoryEntry(command, "Abriendo perfil de GitHub...");
+      addHistoryEntry(command, text.openGithub);
       openExternalLink("https://github.com/xFa00");
       return;
     }
 
     if (command === "linkedin") {
-      addHistoryEntry(command, "Abriendo perfil de LinkedIn...");
+      addHistoryEntry(command, text.openLinkedin);
       openExternalLink(
         "https://www.linkedin.com/in/fabian-andres-chiran-guevara-a2054917a/",
       );
       return;
     }
 
-    const response = responses[command];
+    const response =
+      commandResponses[command as keyof typeof commandResponses];
 
     if (!response) {
       addHistoryEntry(
         command,
-        `Comando desconocido: "${command}".\nEscribe "help" para ver las opciones.`,
+        `${text.unknownCommand}: "${command}".\n${text.unknownHelp}`,
       );
 
       return;
@@ -334,12 +513,30 @@ export default function CommandConsole() {
     });
   }, [history]);
 
+  useEffect(() => {
+    setHistory((current) => {
+      if (
+        current.length === 1 &&
+        current[0].command === "system"
+      ) {
+        return [
+          {
+            command: "system",
+            response: text.initialMessage,
+          },
+        ];
+      }
+
+      return current;
+    });
+  }, [text.initialMessage]);
+
   return (
     <>
       <button
         type="button"
         onClick={() => setIsOpen(true)}
-        aria-label="Abrir consola del portafolio"
+        aria-label={text.openConsole}
         className="fixed bottom-6 right-6 z-40 flex h-12 items-center gap-2 border border-green-400/40 bg-black/90 px-4 font-mono text-xs text-green-400 shadow-[0_0_24px_rgba(34,197,94,0.12)] backdrop-blur-md transition duration-300 hover:border-green-400 hover:bg-green-400 hover:text-black"
       >
         <span className="text-base">&gt;_</span>
@@ -350,7 +547,7 @@ export default function CommandConsole() {
         <div
           role="dialog"
           aria-modal="true"
-          aria-label="Consola del portafolio"
+          aria-label={text.consoleLabel}
           className="fixed inset-0 z-[100] flex items-center justify-center bg-black/85 px-4 backdrop-blur-sm"
           onMouseDown={(event) => {
             if (event.target === event.currentTarget) {
@@ -369,7 +566,7 @@ export default function CommandConsole() {
                   </p>
 
                   <p className="mt-1 hidden font-mono text-[10px] text-neutral-700 sm:block">
-                    Interactive profile interface
+                    {text.consoleSubtitle}
                   </p>
                 </div>
               </div>
@@ -377,7 +574,7 @@ export default function CommandConsole() {
               <button
                 type="button"
                 onClick={closeConsole}
-                aria-label="Cerrar consola"
+                aria-label={text.closeConsole}
                 className="font-mono text-xs text-neutral-600 transition hover:text-green-400"
               >
                 ESC
@@ -436,8 +633,8 @@ export default function CommandConsole() {
                 onKeyDown={handleInputKeyDown}
                 autoComplete="off"
                 spellCheck={false}
-                aria-label="Comando"
-                placeholder="Escribe un comando..."
+                aria-label={text.inputLabel}
+                placeholder={text.inputPlaceholder}
                 className="min-w-0 flex-1 bg-transparent font-mono text-sm text-white outline-none placeholder:text-neutral-700"
               />
 
@@ -445,13 +642,13 @@ export default function CommandConsole() {
                 type="submit"
                 className="border border-neutral-800 px-3 py-2 font-mono text-[10px] tracking-widest text-neutral-500 transition hover:border-green-400 hover:text-green-400"
               >
-                EXECUTE
+                {text.execute}
               </button>
             </form>
 
             <div className="flex items-center justify-between border-t border-neutral-900 px-5 py-3 font-mono text-[9px] text-neutral-800">
-              <span>↑ ↓ command history</span>
-              <span>⌘ K toggle · ESC close</span>
+              <span>{text.historyHint}</span>
+              <span>{text.shortcutHint}</span>
             </div>
           </div>
         </div>
