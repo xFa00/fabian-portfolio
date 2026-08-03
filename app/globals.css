@@ -139,16 +139,6 @@ section {
   transform: translate3d(0, 0, 0);
 }
 
-@keyframes project-progress {
-  from {
-    transform: scaleX(0);
-  }
-
-  to {
-    transform: scaleX(1);
-  }
-}
-
 .project-progress-bar {
   transform-origin: left;
   animation: project-progress 1200ms cubic-bezier(0.22, 1, 0.36, 1) both;

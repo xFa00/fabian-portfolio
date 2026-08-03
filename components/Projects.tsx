@@ -1,3 +1,4 @@
+import AnimatedProgress from "@/components/AnimatedProgress";
 import Reveal from "@/components/Reveal";
 
 const projects = [
@@ -116,27 +117,10 @@ export default function Projects() {
                   </div>
 
                   <div className="flex flex-col justify-end">
-                    <div>
-                      <div className="mb-3 flex items-center justify-between font-mono text-xs">
-                        <span className="text-neutral-600">
-                          project_progress
-                        </span>
-
-                        <span className="text-green-400">
-                          {project.progress}%
-                        </span>
-                      </div>
-
-                      <div className="h-1.5 overflow-hidden bg-neutral-900">
-                        <div
-                          className="project-progress-bar h-full bg-green-400"
-                          style={{
-                            width: `${project.progress}%`,
-                            animationDelay: `${250 + index * 220}ms`,
-                          }}
-                        />
-                      </div>
-                    </div>
+                    <AnimatedProgress
+                      value={project.progress}
+                      delay={index * 250}
+                    />
 
                     {project.repository ? (
                       <a
@@ -161,33 +145,46 @@ export default function Projects() {
             </Reveal>
           ))}
 
-          <Reveal direction="up" delay={400}>
-            <article className="group relative overflow-hidden border border-dashed border-neutral-800 bg-neutral-950/20 p-6 transition hover:border-green-400/30 md:p-8">
-              <div className="absolute right-5 top-4 font-mono text-5xl font-bold text-neutral-900 md:text-7xl">
+          <Reveal direction="up" delay={420}>
+            <article className="classified-project group relative overflow-hidden border border-dashed border-neutral-800 bg-neutral-950/20 p-6 transition duration-500 hover:border-green-400/40 md:p-8">
+              <div
+                aria-hidden="true"
+                className="absolute inset-0 opacity-0 transition duration-500 group-hover:opacity-100"
+              >
+                <div className="absolute inset-0 bg-[linear-gradient(rgba(34,197,94,0.025)_1px,transparent_1px),linear-gradient(90deg,rgba(34,197,94,0.025)_1px,transparent_1px)] bg-[size:24px_24px]" />
+              </div>
+
+              <div className="absolute right-5 top-4 font-mono text-5xl font-bold text-neutral-900 transition duration-500 group-hover:text-green-400/10 md:text-7xl">
                 03
               </div>
 
               <div className="relative flex min-h-48 flex-col justify-between">
                 <div>
                   <div className="flex flex-wrap items-center gap-4">
-                    <h3 className="font-mono text-2xl font-bold text-neutral-500 md:text-3xl">
+                    <h3 className="font-mono text-2xl font-bold text-neutral-500 transition duration-500 group-hover:text-neutral-300 md:text-3xl">
                       Proyecto clasificado
                     </h3>
 
-                    <span className="border border-neutral-800 px-2 py-1 font-mono text-[10px] tracking-widest text-neutral-600">
+                    <span className="border border-neutral-800 px-2 py-1 font-mono text-[10px] tracking-widest text-neutral-600 transition duration-500 group-hover:border-green-400/30 group-hover:text-green-400">
                       PRÓXIMAMENTE
                     </span>
                   </div>
 
-                  <p className="mt-5 max-w-2xl font-mono text-sm leading-7 text-neutral-700">
+                  <p className="mt-5 max-w-2xl font-mono text-sm leading-7 text-neutral-700 transition duration-500 group-hover:text-neutral-500">
                     Nueva iniciativa en fase de exploración. Los detalles serán
                     publicados cuando comience su desarrollo.
                   </p>
                 </div>
 
-                <p className="mt-10 font-mono text-xs tracking-[0.25em] text-neutral-800 transition group-hover:text-green-400/40">
-                  [ ACCESS RESTRICTED ]
-                </p>
+                <div className="mt-10 flex items-center justify-between">
+                  <p className="font-mono text-xs tracking-[0.25em] text-neutral-800 transition duration-500 group-hover:text-green-400/50">
+                    [ ACCESS RESTRICTED ]
+                  </p>
+
+                  <span className="font-mono text-[10px] text-neutral-900 opacity-0 transition duration-500 group-hover:text-green-400/40 group-hover:opacity-100">
+                    CLEARANCE_REQUIRED
+                  </span>
+                </div>
               </div>
             </article>
           </Reveal>
