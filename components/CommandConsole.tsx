@@ -334,23 +334,33 @@ export default function CommandConsole() {
 
   const [isOpen, setIsOpen] = useState(false);
   const [input, setInput] = useState("");
-  const [history, setHistory] = useState<HistoryEntry[]>([
-    {
-      command: "system",
-      response: text.initialMessage,
-    },
-  ]);
-
+  const [history, setHistory] = useState<HistoryEntry[]>([]);
   const [commandHistory, setCommandHistory] = useState<string[]>([]);
   const [historyIndex, setHistoryIndex] = useState(-1);
 
   const inputRef = useRef<HTMLInputElement>(null);
   const outputRef = useRef<HTMLDivElement>(null);
 
+  const resetConsole = () => {
+    setInput("");
+    setHistory([
+      {
+        command: "system",
+        response: text.initialMessage,
+      },
+    ]);
+    setCommandHistory([]);
+    setHistoryIndex(-1);
+  };
+
+  const openConsole = () => {
+    resetConsole();
+    setIsOpen(true);
+  };
+
   const closeConsole = () => {
     setIsOpen(false);
-    setInput("");
-    setHistoryIndex(-1);
+    resetConsole();
   };
 
   const openExternalLink = (url: string) => {
@@ -471,6 +481,10 @@ export default function CommandConsole() {
   };
 
   useEffect(() => {
+    resetConsole();
+  }, [language]);
+
+  useEffect(() => {
     const handleGlobalKeyDown = (event: KeyboardEvent) => {
       const isShortcut =
         (event.metaKey || event.ctrlKey) &&
@@ -478,10 +492,15 @@ export default function CommandConsole() {
 
       if (isShortcut) {
         event.preventDefault();
-        setIsOpen((current) => !current);
+
+        if (isOpen) {
+          closeConsole();
+        } else {
+          openConsole();
+        }
       }
 
-      if (event.key === "Escape") {
+      if (event.key === "Escape" && isOpen) {
         closeConsole();
       }
     };
@@ -491,7 +510,7 @@ export default function CommandConsole() {
     return () => {
       window.removeEventListener("keydown", handleGlobalKeyDown);
     };
-  }, []);
+  }, [isOpen, language]);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -513,29 +532,11 @@ export default function CommandConsole() {
     });
   }, [history]);
 
-  useEffect(() => {
-    setHistory((current) => {
-      if (
-        current.length === 1 &&
-        current[0].command === "system"
-      ) {
-        return [
-          {
-            command: "system",
-            response: text.initialMessage,
-          },
-        ];
-      }
-
-      return current;
-    });
-  }, [text.initialMessage]);
-
   return (
     <>
       <button
         type="button"
-        onClick={() => setIsOpen(true)}
+        onClick={openConsole}
         aria-label={text.openConsole}
         className="fixed bottom-6 right-6 z-40 flex h-12 items-center gap-2 border border-green-400/40 bg-black/90 px-4 font-mono text-xs text-green-400 shadow-[0_0_24px_rgba(34,197,94,0.12)] backdrop-blur-md transition duration-300 hover:border-green-400 hover:bg-green-400 hover:text-black"
       >

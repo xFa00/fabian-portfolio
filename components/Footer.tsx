@@ -1,4 +1,21 @@
+"use client";
+
+import { useLanguage } from "@/context/LanguageContext";
+
+const translations = {
+  es: {
+    stack: "Ciberseguridad · Cloud · Automatización · Datos",
+    builtWith: "Construido con Next.js y constancia.",
+  },
+  en: {
+    stack: "Cybersecurity · Cloud · Automation · Data",
+    builtWith: "Built with Next.js and consistency.",
+  },
+};
+
 export default function Footer() {
+  const { language } = useLanguage();
+  const text = translations[language];
   const currentYear = new Date().getFullYear();
 
   return (
@@ -21,14 +38,14 @@ export default function Footer() {
             </p>
 
             <p className="mt-1 font-mono text-xs text-neutral-700">
-              Cybersecurity · Cloud · Automation · Data
+              {text.stack}
             </p>
           </div>
         </div>
 
         <div className="font-mono text-xs text-neutral-700 md:text-right">
           <p>© {currentYear} Fabián Chiran</p>
-          <p className="mt-1">Construido con Next.js y constancia.</p>
+          <p className="mt-1">{text.builtWith}</p>
         </div>
       </div>
     </footer>
