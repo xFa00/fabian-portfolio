@@ -1,114 +1,248 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import LanguageSwitch from "@/components/LanguageSwitch";
+import { useLanguage } from "@/context/LanguageContext";
 
-const navigation = [
-  { name: "Sobre mí", href: "#about" },
-  { name: "Experiencia", href: "#experience" },
-  { name: "Proyectos", href: "#projects" },
-  { name: "Stack", href: "#skills" },
-  { name: "Certificaciones", href: "#certifications" },
-  { name: "Contacto", href: "#contact" },
-];
+const navigation = {
+  es: [
+    { label: "Sobre mí", href: "#about" },
+    { label: "Experiencia", href: "#experience" },
+    { label: "Proyectos", href: "#projects" },
+    { label: "Competencias", href: "#skills" },
+    { label: "Certificaciones", href: "#certifications" },
+    { label: "Contacto", href: "#contact" },
+  ],
+  en: [
+    { label: "About", href: "#about" },
+    { label: "Experience", href: "#experience" },
+    { label: "Projects", href: "#projects" },
+    { label: "Skills", href: "#skills" },
+    { label: "Certifications", href: "#certifications" },
+    { label: "Contact", href: "#contact" },
+  ],
+};
 
 export default function Navbar() {
-  const [isOpen, setIsOpen] = useState(false);
+  const { language } = useLanguage();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const links = navigation[language];
 
   const closeMenu = () => {
-    setIsOpen(false);
+    setIsMenuOpen(false);
   };
 
+  useEffect(() => {
+    if (!isMenuOpen) {
+      document.body.style.overflow = "";
+      return;
+    }
+
+    document.body.style.overflow = "hidden";
+
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isMenuOpen]);
+
+  useEffect(() => {
+    const handleEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        closeMenu();
+      }
+    };
+
+    window.addEventListener("keydown", handleEscape);
+
+    return () => {
+      window.removeEventListener("keydown", handleEscape);
+    };
+  }, []);
+
   return (
-    <header className="fixed inset-x-0 top-0 z-50 border-b border-green-500/10 bg-black/85 backdrop-blur-md">
-      <nav className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
+    <header className="fixed inset-x-0 top-0 z-50 border-b border-green-500/10 bg-black/80 backdrop-blur-xl">
+      <nav
+        aria-label={
+          language === "es"
+            ? "Navegación principal"
+            : "Main navigation"
+        }
+        className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6"
+      >
+        {/* Logo */}
         <a
           href="#home"
           onClick={closeMenu}
-          className="font-mono text-sm font-bold tracking-wider text-green-400"
+          aria-label={
+            language === "es"
+              ? "Ir al inicio"
+              : "Go to home"
+          }
+          className="group flex items-center gap-2 font-mono text-sm font-bold tracking-wider text-white"
         >
-          FABIÁN CHIRAN
+          <span className="text-green-400 transition group-hover:text-green-300">
+            &gt;
+          </span>
+
+          <span className="transition group-hover:text-green-400">
+            fabian_chiran
+          </span>
+          
         </a>
 
-        <div className="hidden items-center gap-7 md:flex">
-          {navigation.map((item) => (
+        {/* Navegación de escritorio */}
+        <div className="hidden items-center gap-7 lg:flex">
+          {links.map((link, index) => (
             <a
-              key={item.name}
-              href={item.href}
-              className="font-mono text-xs text-neutral-400 transition hover:text-green-400"
+              key={link.href}
+              href={link.href}
+              className="group relative font-mono text-xs text-neutral-500 transition duration-300 hover:text-green-400"
             >
-              {item.name}
+              <span className="mr-1 text-[10px] text-neutral-800 transition group-hover:text-green-400/60">
+                {String(index + 1).padStart(2, "0")}.
+              </span>
+
+              {link.label}
+
+              <span className="absolute -bottom-2 left-0 h-px w-0 bg-green-400 transition-all duration-300 group-hover:w-full" />
             </a>
           ))}
         </div>
 
-        <div className="hidden items-center gap-2 font-mono text-xs text-neutral-500 md:flex">
-          <span className="h-2 w-2 animate-pulse rounded-full bg-green-400" />
-          ONLINE
+        {/* Controles de escritorio */}
+        <div className="hidden items-center gap-4 md:flex">
+          <LanguageSwitch />
+
+          <div className="flex items-center gap-2 font-mono text-[10px] tracking-[0.2em] text-green-400">
+            <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-green-400 shadow-[0_0_8px_rgba(34,197,94,0.7)]" />
+
+            ONLINE
+          </div>
         </div>
 
+        {/* Botón móvil */}
         <button
           type="button"
-          onClick={() => setIsOpen((current) => !current)}
-          aria-label={isOpen ? "Cerrar menú" : "Abrir menú"}
-          aria-expanded={isOpen}
-          className="flex h-10 w-10 flex-col items-center justify-center gap-1.5 border border-neutral-800 text-green-400 transition hover:border-green-400 md:hidden"
+          onClick={() => setIsMenuOpen((current) => !current)}
+          aria-expanded={isMenuOpen}
+          aria-controls="mobile-navigation"
+          aria-label={
+            isMenuOpen
+              ? language === "es"
+                ? "Cerrar menú"
+                : "Close menu"
+              : language === "es"
+                ? "Abrir menú"
+                : "Open menu"
+          }
+          className="relative flex h-10 w-10 items-center justify-center border border-neutral-800 bg-black font-mono text-green-400 transition hover:border-green-400 md:hidden"
         >
+          <span className="sr-only">
+            {isMenuOpen ? "Close" : "Menu"}
+          </span>
+
           <span
-            className={`block h-px w-5 bg-current transition ${
-              isOpen ? "translate-y-[7px] rotate-45" : ""
+            className={`absolute h-px w-5 bg-current transition duration-300 ${
+              isMenuOpen
+                ? "translate-y-0 rotate-45"
+                : "-translate-y-1.5"
             }`}
           />
 
           <span
-            className={`block h-px w-5 bg-current transition ${
-              isOpen ? "opacity-0" : ""
+            className={`absolute h-px w-5 bg-current transition duration-300 ${
+              isMenuOpen ? "opacity-0" : "opacity-100"
             }`}
           />
 
           <span
-            className={`block h-px w-5 bg-current transition ${
-              isOpen ? "-translate-y-[7px] -rotate-45" : ""
+            className={`absolute h-px w-5 bg-current transition duration-300 ${
+              isMenuOpen
+                ? "translate-y-0 -rotate-45"
+                : "translate-y-1.5"
             }`}
           />
         </button>
       </nav>
 
+      {/* Menú móvil */}
       <div
-        className={`overflow-hidden border-t border-green-500/10 bg-black transition-all duration-300 md:hidden ${
-          isOpen
-            ? "max-h-[500px] opacity-100"
-            : "max-h-0 border-transparent opacity-0"
+        id="mobile-navigation"
+        className={`fixed inset-x-0 top-16 z-50 overflow-hidden border-b border-green-400/10 bg-black/95 backdrop-blur-xl transition-all duration-500 md:hidden ${
+          isMenuOpen
+            ? "max-h-[calc(100vh-4rem)] opacity-100"
+            : "pointer-events-none max-h-0 opacity-0"
         }`}
       >
-        <div className="mx-auto max-w-6xl px-6 py-6">
-          <div className="space-y-1">
-            {navigation.map((item, index) => (
+        <div className="flex max-h-[calc(100vh-4rem)] flex-col overflow-y-auto px-6 py-8">
+          <div className="space-y-2">
+            {links.map((link, index) => (
               <a
-                key={item.name}
-                href={item.href}
+                key={link.href}
+                href={link.href}
                 onClick={closeMenu}
-                className="group flex items-center justify-between border-b border-neutral-900 py-4 font-mono text-sm text-neutral-400 transition hover:text-green-400"
+                className="group flex items-center justify-between border-b border-neutral-900 py-4 font-mono"
               >
-                <span>
-                  <span className="mr-3 text-xs text-neutral-700">
-                    0{index + 1}
+                <div className="flex items-center gap-4">
+                  <span className="text-[10px] text-neutral-700 transition group-hover:text-green-400">
+                    {String(index + 1).padStart(2, "0")}
                   </span>
-                  {item.name}
-                </span>
 
-                <span className="text-neutral-700 transition group-hover:text-green-400">
-                  ↘
+                  <span className="text-sm text-neutral-300 transition group-hover:text-green-400">
+                    {link.label}
+                  </span>
+                </div>
+
+                <span className="translate-x-0 text-green-400/40 transition duration-300 group-hover:translate-x-1 group-hover:text-green-400">
+                  →
                 </span>
               </a>
             ))}
           </div>
 
-          <div className="mt-6 flex items-center gap-2 font-mono text-xs text-neutral-600">
-            <span className="h-2 w-2 animate-pulse rounded-full bg-green-400" />
-            ONLINE
+          <div className="mt-8 flex items-center justify-between border-t border-neutral-900 pt-6">
+            <LanguageSwitch />
+
+            <div className="flex items-center gap-2 font-mono text-[10px] tracking-[0.2em] text-green-400">
+              <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-green-400 shadow-[0_0_8px_rgba(34,197,94,0.7)]" />
+
+              ONLINE
+            </div>
+          </div>
+
+          <div className="mt-8 font-mono text-[10px] leading-5 text-neutral-800">
+            <p>
+              {language === "es"
+                ? "Sistema de navegación activo"
+                : "Navigation system active"}
+            </p>
+
+            <p>
+              {language === "es"
+                ? "Idioma seleccionado:"
+                : "Selected language:"}{" "}
+              <span className="text-green-400">
+                {language.toUpperCase()}
+              </span>
+            </p>
           </div>
         </div>
       </div>
+
+      {/* Fondo para cerrar el menú móvil */}
+      {isMenuOpen && (
+        <button
+          type="button"
+          onClick={closeMenu}
+          aria-label={
+            language === "es"
+              ? "Cerrar menú"
+              : "Close menu"
+          }
+          className="fixed inset-0 top-16 -z-10 bg-black/60 backdrop-blur-sm md:hidden"
+        />
+      )}
     </header>
   );
 }

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist_Mono } from "next/font/google";
+import { LanguageProvider } from "@/context/LanguageContext";
 import "./globals.css";
 
 const geistMono = Geist_Mono({
@@ -9,12 +10,15 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://fabianchiran.dev"),
+
   title: {
     default: "Fabián Chiran | Cybersecurity Portfolio",
     template: "%s | Fabián Chiran",
   },
+
   description:
     "Portafolio de Fabián Chiran, Ingeniero de Sistemas enfocado en ciberseguridad, cloud, automatización y análisis de datos.",
+
   keywords: [
     "Fabián Chiran",
     "Cybersecurity",
@@ -27,8 +31,15 @@ export const metadata: Metadata = {
     "Medellín",
     "Colombia",
   ],
-  authors: [{ name: "Fabián Chiran" }],
+
+  authors: [
+    {
+      name: "Fabián Chiran",
+    },
+  ],
+
   creator: "Fabián Chiran",
+
   openGraph: {
     type: "website",
     locale: "es_CO",
@@ -38,12 +49,14 @@ export const metadata: Metadata = {
     description:
       "Ingeniero de Sistemas enfocado en ciberseguridad, cloud, automatización y análisis de datos.",
   },
+
   twitter: {
     card: "summary_large_image",
     title: "Fabián Chiran | Cybersecurity Portfolio",
     description:
       "Ingeniero de Sistemas enfocado en ciberseguridad, cloud, automatización y análisis de datos.",
   },
+
   robots: {
     index: true,
     follow: true,
@@ -56,9 +69,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="es">
+    <html lang="es" suppressHydrationWarning>
       <body className={`${geistMono.variable} antialiased`}>
-        {children}
+        <LanguageProvider>{children}</LanguageProvider>
       </body>
     </html>
   );
