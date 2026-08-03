@@ -68,7 +68,7 @@ export default function Navbar() {
             ? "Navegación principal"
             : "Main navigation"
         }
-        className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6"
+        className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6"
       >
         {/* Logo */}
         <a
@@ -79,16 +79,16 @@ export default function Navbar() {
               ? "Ir al inicio"
               : "Go to home"
           }
-          className="group flex items-center gap-2 font-mono text-sm font-bold tracking-wider text-white"
+          className="group flex min-w-0 items-center gap-2 font-mono text-sm font-bold tracking-wider text-white"
         >
-          <span className="text-green-400 transition group-hover:text-green-300">
+          <span className="shrink-0 text-green-400 transition group-hover:text-green-300">
             &gt;
           </span>
 
-          <span className="transition group-hover:text-green-400">
+          <span className="truncate transition group-hover:text-green-400">
             fabian_chiran
           </span>
-          
+
         </a>
 
         {/* Navegación de escritorio */}
@@ -121,49 +121,53 @@ export default function Navbar() {
           </div>
         </div>
 
-        {/* Botón móvil */}
-        <button
-          type="button"
-          onClick={() => setIsMenuOpen((current) => !current)}
-          aria-expanded={isMenuOpen}
-          aria-controls="mobile-navigation"
-          aria-label={
-            isMenuOpen
-              ? language === "es"
-                ? "Cerrar menú"
-                : "Close menu"
-              : language === "es"
-                ? "Abrir menú"
-                : "Open menu"
-          }
-          className="relative flex h-10 w-10 items-center justify-center border border-neutral-800 bg-black font-mono text-green-400 transition hover:border-green-400 md:hidden"
-        >
-          <span className="sr-only">
-            {isMenuOpen ? "Close" : "Menu"}
-          </span>
+        {/* Controles móviles */}
+        <div className="flex shrink-0 items-center gap-2 md:hidden">
+          <LanguageSwitch />
 
-          <span
-            className={`absolute h-px w-5 bg-current transition duration-300 ${
+          <button
+            type="button"
+            onClick={() => setIsMenuOpen((current) => !current)}
+            aria-expanded={isMenuOpen}
+            aria-controls="mobile-navigation"
+            aria-label={
               isMenuOpen
-                ? "translate-y-0 rotate-45"
-                : "-translate-y-1.5"
-            }`}
-          />
+                ? language === "es"
+                  ? "Cerrar menú"
+                  : "Close menu"
+                : language === "es"
+                  ? "Abrir menú"
+                  : "Open menu"
+            }
+            className="relative flex h-10 w-10 shrink-0 items-center justify-center border border-neutral-800 bg-black font-mono text-green-400 transition hover:border-green-400"
+          >
+            <span className="sr-only">
+              {isMenuOpen ? "Close" : "Menu"}
+            </span>
 
-          <span
-            className={`absolute h-px w-5 bg-current transition duration-300 ${
-              isMenuOpen ? "opacity-0" : "opacity-100"
-            }`}
-          />
+            <span
+              className={`absolute h-px w-5 bg-current transition duration-300 ${
+                isMenuOpen
+                  ? "translate-y-0 rotate-45"
+                  : "-translate-y-1.5"
+              }`}
+            />
 
-          <span
-            className={`absolute h-px w-5 bg-current transition duration-300 ${
-              isMenuOpen
-                ? "translate-y-0 -rotate-45"
-                : "translate-y-1.5"
-            }`}
-          />
-        </button>
+            <span
+              className={`absolute h-px w-5 bg-current transition duration-300 ${
+                isMenuOpen ? "opacity-0" : "opacity-100"
+              }`}
+            />
+
+            <span
+              className={`absolute h-px w-5 bg-current transition duration-300 ${
+                isMenuOpen
+                  ? "translate-y-0 -rotate-45"
+                  : "translate-y-1.5"
+              }`}
+            />
+          </button>
+        </div>
       </nav>
 
       {/* Menú móvil */}
@@ -202,30 +206,28 @@ export default function Navbar() {
           </div>
 
           <div className="mt-8 flex items-center justify-between border-t border-neutral-900 pt-6">
-            <LanguageSwitch />
+            <div className="font-mono text-[10px] leading-5 text-neutral-700">
+              <p>
+                {language === "es"
+                  ? "Sistema de navegación activo"
+                  : "Navigation system active"}
+              </p>
+
+              <p>
+                {language === "es"
+                  ? "Idioma seleccionado:"
+                  : "Selected language:"}{" "}
+                <span className="text-green-400">
+                  {language.toUpperCase()}
+                </span>
+              </p>
+            </div>
 
             <div className="flex items-center gap-2 font-mono text-[10px] tracking-[0.2em] text-green-400">
               <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-green-400 shadow-[0_0_8px_rgba(34,197,94,0.7)]" />
 
               ONLINE
             </div>
-          </div>
-
-          <div className="mt-8 font-mono text-[10px] leading-5 text-neutral-800">
-            <p>
-              {language === "es"
-                ? "Sistema de navegación activo"
-                : "Navigation system active"}
-            </p>
-
-            <p>
-              {language === "es"
-                ? "Idioma seleccionado:"
-                : "Selected language:"}{" "}
-              <span className="text-green-400">
-                {language.toUpperCase()}
-              </span>
-            </p>
           </div>
         </div>
       </div>
