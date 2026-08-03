@@ -1,182 +1,252 @@
 "use client";
 
-import { FormEvent, useEffect, useRef, useState } from "react";
+import {
+  FormEvent,
+  KeyboardEvent as ReactKeyboardEvent,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
+
+type HistoryEntry = {
+  command: string;
+  response: string;
+};
 
 const responses: Record<string, string> = {
   help: `
 Comandos disponibles:
 
-whoami
-about
-experience
-projects
-skills
-certifications
-contact
-cv
-github
-linkedin
-clear
+whoami          Información general
+about           Perfil profesional
+experience      Experiencia laboral
+projects        Proyectos actuales
+skills          Competencias técnicas
+certifications  Certificaciones
+contact         Datos de contacto
+cv              Abrir hoja de vida
+github          Abrir GitHub
+linkedin        Abrir LinkedIn
+clear           Limpiar consola
   `.trim(),
 
   whoami: `
 Fabián Chiran
 Ingeniero de Sistemas e Informática.
 
-Enfoque:
-Ciberseguridad, cloud, automatización y análisis de datos.
+FOCUS
+Ciberseguridad · Cloud · Automatización · Datos
 
-Ubicación:
-Medellín, Colombia.
+LOCATION
+Medellín, Colombia
 
-Estado:
-Disponible para oportunidades.
+STATUS
+Disponible para oportunidades
   `.trim(),
 
   about: `
-Soy Ingeniero de Sistemas e Informática con experiencia en infraestructura,
+Ingeniero de Sistemas e Informática con experiencia en infraestructura,
 automatización, análisis de datos y entornos cloud.
 
-Actualmente enfoco mi desarrollo profesional en ciberseguridad,
-seguridad cloud, DevSecOps y AppSec.
+Actualmente construye su carrera en ciberseguridad, con interés en:
+
+• Cloud Security
+• DevSecOps
+• AppSec
+• Threat Hunting
+• Automatización de seguridad
   `.trim(),
 
   experience: `
-Bancolombia — 2026
-Ingeniero de Infraestructura, práctica profesional.
-Automatización, Ansible, AWS, Azure Arc, Python y SQL.
+BANCOLOMBIA — 2026
+Ingeniero de Infraestructura · Práctica profesional
 
-Genius Sports — 2024–2025
-Sports Data Operator.
-Validación y control de calidad de datos deportivos.
+Automatización de procesos, Ansible Automation Platform, AWS,
+Azure Arc, Python, SQL, DNS e inventarios tecnológicos.
 
-Genius Sports — 2023
-Live Analyst Data.
-Análisis y registro de eventos deportivos en tiempo real.
+GENIUS SPORTS — 2024–2025
+Sports Data Operator
+
+Validación, control de calidad y procesamiento de información deportiva.
+
+GENIUS SPORTS — 2023
+Live Analyst Data
+
+Registro y análisis de eventos deportivos en tiempo real.
   `.trim(),
 
   projects: `
-01 — Urkunina Scan
-Plataforma modular para descubrir, correlacionar y priorizar vulnerabilidades.
-Estado: en progreso.
+01 — URKUNINA SCAN
+Plataforma modular de descubrimiento, correlación y priorización
+de vulnerabilidades.
 
-02 — Data Volcánica
-Plataforma de analítica de fútbol enfocada inicialmente en Deportivo Pasto.
-Estado: en progreso.
+Estado: En progreso
 
-03 — Proyecto clasificado
+
+02 — DATA VOLCÁNICA
+Plataforma de análisis de datos enfocada inicialmente
+en Deportivo Pasto y el fútbol colombiano.
+
+Estado: En progreso
+
+
+03 — PROYECTO CLASIFICADO
 Nueva iniciativa actualmente en exploración.
   `.trim(),
 
   skills: `
-Lenguajes:
-Python, SQL, TypeScript, JavaScript, Bash y PowerShell.
+LANGUAGES
+Python · SQL · TypeScript · JavaScript · Bash · PowerShell
 
-Ciberseguridad:
-Nmap, Nuclei, Tenable, MITRE ATT&CK, threat hunting y gestión de vulnerabilidades.
+CYBERSECURITY
+Nmap · Nuclei · Tenable · MITRE ATT&CK
+Threat Hunting · Gestión de vulnerabilidades
 
-Cloud e infraestructura:
-AWS, Azure Arc, Ansible, Linux, Docker y DNS.
+CLOUD & INFRASTRUCTURE
+AWS · Azure Arc · Ansible · Linux · Docker · DNS
 
-Datos:
-Pandas, MySQL, PostgreSQL, Power BI, Tableau y Jupyter.
+DATA
+Pandas · MySQL · PostgreSQL · Power BI · Tableau · Jupyter
   `.trim(),
 
   certifications: `
-Obtenidas:
-JavaScript Essentials 1
-Applied Machine Learning in Python
-Introduction to Data Science in Python
-CCNA: Introduction to Networks
-Google Cloud Computing Foundations
+OBTENIDAS
 
-En preparación:
-AWS Certified Cloud Practitioner
-AWS Certified AI Practitioner
+✓ JavaScript Essentials 1
+✓ Applied Machine Learning in Python
+✓ Introduction to Data Science in Python
+✓ CCNA: Introduction to Networks
+✓ Google Cloud Computing Foundations
+
+
+EN PREPARACIÓN
+
+• AWS Certified Cloud Practitioner
+• AWS Certified AI Practitioner
   `.trim(),
 
   contact: `
-Email:
+EMAIL
 contacto@fabianchiran.dev
 
-GitHub:
+GITHUB
 github.com/xFa00
 
-LinkedIn:
+LINKEDIN
 linkedin.com/in/fabian-andres-chiran-guevara-a2054917a
 
-Ubicación:
-Medellín, Colombia.
+LOCATION
+Medellín, Colombia
+
+MODALITY
+Presencial · Híbrida · Remota
   `.trim(),
 };
+
+const quickCommands = [
+  "whoami",
+  "experience",
+  "projects",
+  "skills",
+  "certifications",
+  "contact",
+];
 
 export default function CommandConsole() {
   const [isOpen, setIsOpen] = useState(false);
   const [input, setInput] = useState("");
-  const [output, setOutput] = useState(
-    'Escribe "help" para consultar los comandos disponibles.',
-  );
+  const [history, setHistory] = useState<HistoryEntry[]>([
+    {
+      command: "system",
+      response:
+        'Portfolio Console inicializada.\nEscribe "help" para consultar los comandos.',
+    },
+  ]);
+
+  const [commandHistory, setCommandHistory] = useState<string[]>([]);
+  const [historyIndex, setHistoryIndex] = useState(-1);
 
   const inputRef = useRef<HTMLInputElement>(null);
+  const outputRef = useRef<HTMLDivElement>(null);
 
   const closeConsole = () => {
     setIsOpen(false);
     setInput("");
+    setHistoryIndex(-1);
   };
 
   const openExternalLink = (url: string) => {
     window.open(url, "_blank", "noopener,noreferrer");
   };
 
-  const executeCommand = () => {
-    const command = input.trim().toLowerCase();
+  const addHistoryEntry = (command: string, response: string) => {
+    setHistory((current) => [
+      ...current,
+      {
+        command,
+        response,
+      },
+    ]);
+  };
+
+  const executeCommand = (rawCommand?: string) => {
+    const command = (rawCommand ?? input).trim().toLowerCase();
 
     if (!command) {
-      setOutput("Debes escribir un comando.");
       return;
     }
 
+    setCommandHistory((current) => [
+      ...current.filter((item) => item !== command),
+      command,
+    ]);
+
+    setHistoryIndex(-1);
+    setInput("");
+
     if (command === "clear") {
-      setOutput("");
-      setInput("");
+      setHistory([
+        {
+          command: "system",
+          response: "Consola limpia.",
+        },
+      ]);
+
       return;
     }
 
     if (command === "cv") {
-      setOutput("Abriendo hoja de vida...");
+      addHistoryEntry(command, "Abriendo hoja de vida...");
       openExternalLink("/cv-fabian-chiran.pdf");
-      setInput("");
       return;
     }
 
     if (command === "github") {
-      setOutput("Abriendo GitHub...");
+      addHistoryEntry(command, "Abriendo perfil de GitHub...");
       openExternalLink("https://github.com/xFa00");
-      setInput("");
       return;
     }
 
     if (command === "linkedin") {
-      setOutput("Abriendo LinkedIn...");
+      addHistoryEntry(command, "Abriendo perfil de LinkedIn...");
       openExternalLink(
         "https://www.linkedin.com/in/fabian-andres-chiran-guevara-a2054917a/",
       );
-      setInput("");
       return;
     }
 
     const response = responses[command];
 
     if (!response) {
-      setOutput(
-        `Comando desconocido: "${command}". Escribe "help" para ver las opciones.`,
+      addHistoryEntry(
+        command,
+        `Comando desconocido: "${command}".\nEscribe "help" para ver las opciones.`,
       );
-      setInput("");
+
       return;
     }
 
-    setOutput(response);
-    setInput("");
+    addHistoryEntry(command, response);
   };
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
@@ -184,10 +254,48 @@ export default function CommandConsole() {
     executeCommand();
   };
 
+  const handleInputKeyDown = (
+    event: ReactKeyboardEvent<HTMLInputElement>,
+  ) => {
+    if (event.key === "ArrowUp") {
+      event.preventDefault();
+
+      if (commandHistory.length === 0) return;
+
+      const nextIndex =
+        historyIndex < commandHistory.length - 1
+          ? historyIndex + 1
+          : historyIndex;
+
+      setHistoryIndex(nextIndex);
+      setInput(commandHistory[commandHistory.length - 1 - nextIndex]);
+    }
+
+    if (event.key === "ArrowDown") {
+      event.preventDefault();
+
+      if (historyIndex <= 0) {
+        setHistoryIndex(-1);
+        setInput("");
+        return;
+      }
+
+      const nextIndex = historyIndex - 1;
+
+      setHistoryIndex(nextIndex);
+      setInput(commandHistory[commandHistory.length - 1 - nextIndex]);
+    }
+
+    if (event.key === "Escape") {
+      closeConsole();
+    }
+  };
+
   useEffect(() => {
-    const handleKeyDown = (event: KeyboardEvent) => {
+    const handleGlobalKeyDown = (event: KeyboardEvent) => {
       const isShortcut =
-        (event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "k";
+        (event.metaKey || event.ctrlKey) &&
+        event.key.toLowerCase() === "k";
 
       if (isShortcut) {
         event.preventDefault();
@@ -199,10 +307,10 @@ export default function CommandConsole() {
       }
     };
 
-    window.addEventListener("keydown", handleKeyDown);
+    window.addEventListener("keydown", handleGlobalKeyDown);
 
     return () => {
-      window.removeEventListener("keydown", handleKeyDown);
+      window.removeEventListener("keydown", handleGlobalKeyDown);
     };
   }, []);
 
@@ -219,16 +327,23 @@ export default function CommandConsole() {
     };
   }, [isOpen]);
 
+  useEffect(() => {
+    outputRef.current?.scrollTo({
+      top: outputRef.current.scrollHeight,
+      behavior: "smooth",
+    });
+  }, [history]);
+
   return (
     <>
       <button
         type="button"
         onClick={() => setIsOpen(true)}
-        aria-label="Abrir consola"
-        className="fixed bottom-6 right-6 z-40 flex h-12 items-center gap-2 border border-green-400/40 bg-black/90 px-4 font-mono text-xs text-green-400 shadow-[0_0_24px_rgba(34,197,94,0.12)] backdrop-blur-md transition hover:border-green-400 hover:bg-green-400 hover:text-black"
+        aria-label="Abrir consola del portafolio"
+        className="fixed bottom-6 right-6 z-40 flex h-12 items-center gap-2 border border-green-400/40 bg-black/90 px-4 font-mono text-xs text-green-400 shadow-[0_0_24px_rgba(34,197,94,0.12)] backdrop-blur-md transition duration-300 hover:border-green-400 hover:bg-green-400 hover:text-black"
       >
         <span className="text-base">&gt;_</span>
-        <span className="hidden sm:inline">CMD</span>
+        <span className="hidden sm:inline">CMD K</span>
       </button>
 
       {isOpen && (
@@ -236,41 +351,80 @@ export default function CommandConsole() {
           role="dialog"
           aria-modal="true"
           aria-label="Consola del portafolio"
-          className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 px-4 backdrop-blur-sm"
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-black/85 px-4 backdrop-blur-sm"
           onMouseDown={(event) => {
             if (event.target === event.currentTarget) {
               closeConsole();
             }
           }}
         >
-          <div className="w-full max-w-2xl overflow-hidden border border-green-400/30 bg-black shadow-[0_0_60px_rgba(34,197,94,0.12)]">
+          <div className="flex max-h-[85vh] w-full max-w-3xl flex-col overflow-hidden border border-green-400/30 bg-black shadow-[0_0_60px_rgba(34,197,94,0.12)]">
             <div className="flex items-center justify-between border-b border-green-400/15 px-5 py-4">
               <div className="flex items-center gap-3">
                 <span className="h-2 w-2 animate-pulse rounded-full bg-green-400" />
 
-                <p className="font-mono text-xs uppercase tracking-[0.2em] text-green-400">
-                  Portfolio Console
-                </p>
+                <div>
+                  <p className="font-mono text-xs uppercase tracking-[0.2em] text-green-400">
+                    Portfolio Console
+                  </p>
+
+                  <p className="mt-1 hidden font-mono text-[10px] text-neutral-700 sm:block">
+                    Interactive profile interface
+                  </p>
+                </div>
               </div>
 
               <button
                 type="button"
                 onClick={closeConsole}
+                aria-label="Cerrar consola"
                 className="font-mono text-xs text-neutral-600 transition hover:text-green-400"
               >
                 ESC
               </button>
             </div>
 
-            <div className="max-h-[50vh] min-h-56 overflow-y-auto border-b border-neutral-900 p-5">
-              <pre className="whitespace-pre-wrap font-mono text-xs leading-6 text-neutral-400 md:text-sm">
-                {output}
-              </pre>
+            <div
+              ref={outputRef}
+              className="min-h-64 flex-1 space-y-7 overflow-y-auto p-5 md:min-h-80"
+            >
+              {history.map((entry, index) => (
+                <div key={`${entry.command}-${index}`}>
+                  <p className="font-mono text-xs text-green-400">
+                    <span className="mr-2 text-neutral-700">&gt;</span>
+                    {entry.command}
+                  </p>
+
+                  <pre className="mt-3 whitespace-pre-wrap font-mono text-xs leading-6 text-neutral-400 md:text-sm">
+                    {entry.response}
+                  </pre>
+                </div>
+              ))}
+
+              <span
+                aria-hidden="true"
+                className="terminal-cursor inline-block h-4 w-[2px] bg-green-400"
+              />
+            </div>
+
+            <div className="border-t border-neutral-900 px-5 py-3">
+              <div className="flex gap-2 overflow-x-auto pb-1">
+                {quickCommands.map((command) => (
+                  <button
+                    key={command}
+                    type="button"
+                    onClick={() => executeCommand(command)}
+                    className="shrink-0 border border-neutral-900 px-3 py-1.5 font-mono text-[10px] text-neutral-600 transition hover:border-green-400/40 hover:text-green-400"
+                  >
+                    {command}
+                  </button>
+                ))}
+              </div>
             </div>
 
             <form
               onSubmit={handleSubmit}
-              className="flex items-center gap-3 px-5 py-4"
+              className="flex items-center gap-3 border-t border-neutral-900 px-5 py-4"
             >
               <span className="font-mono text-sm text-green-400">&gt;</span>
 
@@ -279,8 +433,10 @@ export default function CommandConsole() {
                 type="text"
                 value={input}
                 onChange={(event) => setInput(event.target.value)}
+                onKeyDown={handleInputKeyDown}
                 autoComplete="off"
                 spellCheck={false}
+                aria-label="Comando"
                 placeholder="Escribe un comando..."
                 className="min-w-0 flex-1 bg-transparent font-mono text-sm text-white outline-none placeholder:text-neutral-700"
               />
@@ -293,13 +449,9 @@ export default function CommandConsole() {
               </button>
             </form>
 
-            <div className="flex flex-wrap gap-x-5 gap-y-2 border-t border-neutral-900 px-5 py-4 font-mono text-[10px] text-neutral-700">
-              <span>whoami</span>
-              <span>experience</span>
-              <span>projects</span>
-              <span>skills</span>
-              <span>certifications</span>
-              <span>contact</span>
+            <div className="flex items-center justify-between border-t border-neutral-900 px-5 py-3 font-mono text-[9px] text-neutral-800">
+              <span>↑ ↓ command history</span>
+              <span>⌘ K toggle · ESC close</span>
             </div>
           </div>
         </div>
