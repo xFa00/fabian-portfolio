@@ -1,5 +1,6 @@
 import Navbar from "@/components/Navbar";
 import SectionIndicator from "@/components/SectionIndicator";
+import CommandConsole from "@/components/CommandConsole";
 import Hero from "@/components/Hero";
 import About from "@/components/About";
 import Experience from "@/components/Experience";
@@ -14,6 +15,7 @@ export default function Home() {
     <main className="min-h-screen bg-black text-white">
       <Navbar />
       <SectionIndicator />
+      <CommandConsole />
       <Hero />
       <About />
       <Experience />
