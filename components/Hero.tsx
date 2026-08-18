@@ -5,13 +5,13 @@ import { useLanguage } from "@/context/LanguageContext";
 
 const content = {
   es: {
-    eyebrow: "Portafolio / Ciberseguridad",
+    eyebrow: "Portafolio",
     description:
-      "Ingeniero de Sistemas enfocado en ciberseguridad, infraestructura cloud, automatización y análisis de datos.",
+      "Ingeniero de Sistemas enfocado en ciberseguridad, infraestructura cloud, automatización, desarrollo y análisis de datos.",
     locationLabel: "ubicación",
     location: "Medellín, Colombia",
     statusLabel: "estado",
-    status: "disponible para oportunidades",
+    status: "Disponible",
     projectLabel: "proyecto_actual",
     project: "Urkunina Scan",
     projectsButton: "Explorar proyectos",

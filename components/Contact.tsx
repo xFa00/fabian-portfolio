@@ -8,13 +8,12 @@ const translations = {
     title: "Construyamos algo",
     highlightedTitle: "seguro y útil.",
     description:
-      "Estoy disponible para oportunidades en ciberseguridad, cloud, infraestructura, automatización y desarrollo.",
+      "¿Tienes un proyecto o necesitas fortalecer tu entorno tecnológico? Contáctame y conversemos sobre cómo puedo ayudarte a construir soluciones seguras, eficientes y adaptadas a tus necesidades.",
     conversation: "Iniciar conversación",
     channels: "Canales disponibles",
     cv: "Descargar hoja de vida",
-    availability: "Disponible para oportunidades",
-    location:
-      "Medellín, Colombia · Modalidad presencial, híbrida o remota",
+    availability: "Disponbile",
+    location: "Medellín, Colombia",
   },
   
   en: {
@@ -22,12 +21,12 @@ const translations = {
     title: "Let’s build something",
     highlightedTitle: "secure and useful.",
     description:
-      "I am available for opportunities in cybersecurity, cloud, infrastructure, automation, and development.",
+     "Do you have a project in mind or need to strengthen your technology environment? Get in touch and let’s discuss how I can help you build secure, efficient solutions tailored to your needs.",
     conversation: "Start a conversation",
     channels: "Available channels",
     cv: "Download résumé",
-    availability: "Available for opportunities",
-    location: "Medellín, Colombia · On-site, hybrid, or remote",
+    availability: "Available",
+    location: "Medellín, Colombia",
   },
 };
 

@@ -33,7 +33,7 @@ const content: Record<
     experiences: [
       {
         company: "Bancolombia",
-        role: "Ingeniero de Infraestructura — Práctica profesional",
+        role: "Ingeniero de Infraestructura",
         period: "Febrero 2026 — Julio 2026",
         location: "Medellín, Colombia",
         description:
@@ -60,7 +60,7 @@ const content: Record<
 
       {
         company: "Genius Sports",
-        role: "Sports Data Operator",
+        role: "Sports Data Analyst",
         period: "Octubre 2024 — Diciembre 2025",
         location: "Remoto",
         description:
@@ -79,26 +79,6 @@ const content: Record<
         ],
       },
 
-      {
-        company: "Genius Sports",
-        role: "Live Analyst Data",
-        period: "Abril 2023 — Octubre 2023",
-        location: "Remoto",
-        description:
-          "Registro y análisis de eventos deportivos en tiempo real, siguiendo protocolos operativos y criterios de precisión.",
-        achievements: [
-          "Seguimiento de partidos y captura de eventos deportivos en plataformas especializadas.",
-          "Validación en tiempo real de jugadas, resultados y acontecimientos relevantes.",
-          "Cumplimiento de procedimientos operativos bajo condiciones de tiempo limitado.",
-          "Reporte de inconsistencias técnicas o diferencias en el seguimiento de los eventos.",
-        ],
-        technologies: [
-          "Live Data",
-          "Real-Time Analysis",
-          "Data Accuracy",
-          "Sports Operations",
-        ],
-      },
     ],
   },
 
@@ -112,7 +92,7 @@ const content: Record<
     experiences: [
       {
         company: "Bancolombia",
-        role: "Infrastructure Engineer — Professional internship",
+        role: "Infrastructure Engineer",
         period: "February 2026 — July 2026",
         location: "Medellín, Colombia",
         description:
@@ -139,7 +119,7 @@ const content: Record<
 
       {
         company: "Genius Sports",
-        role: "Sports Data Operator",
+        role: "Sports Data Analyst",
         period: "October 2024 — December 2025",
         location: "Remote",
         description:
@@ -158,26 +138,6 @@ const content: Record<
         ],
       },
 
-      {
-        company: "Genius Sports",
-        role: "Live Data Analyst",
-        period: "April 2023 — October 2023",
-        location: "Remote",
-        description:
-          "Real-time recording and analysis of sports events, following operational protocols and accuracy requirements.",
-        achievements: [
-          "Monitored matches and captured sports events using specialized platforms.",
-          "Validated plays, results, and relevant match events in real time.",
-          "Followed operational procedures under time-sensitive conditions.",
-          "Reported technical inconsistencies or tracking differences during live events.",
-        ],
-        technologies: [
-          "Live Data",
-          "Real-Time Analysis",
-          "Data Accuracy",
-          "Sports Operations",
-        ],
-      },
     ],
   },
 };

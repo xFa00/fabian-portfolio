@@ -39,7 +39,7 @@ const content: Record<
     sectionLabel: "03. PROYECTOS",
     title: "Proyectos en construcción",
     introduction:
-      "Proyectos personales desarrollados de manera progresiva para aplicar conocimientos de ciberseguridad, desarrollo de software y análisis de datos.",
+      "Proyectos personales desarrollados.",
     progressLabel: "progreso_del_proyecto",
     repositoryAvailable: "Ver repositorio",
     repositorySoon: "Repositorio próximamente",
@@ -71,7 +71,7 @@ const content: Record<
         status: "EN PROGRESO",
         progress: 10,
         description:
-          "Plataforma independiente de análisis de datos enfocada inicialmente en Deportivo Pasto y el fútbol colombiano.",
+          "Plataforma independiente de análisis de datos enfocada en Deportivo Pasto y el fútbol colombiano.",
         details:
           "El proyecto busca transformar estadísticas, resultados y datos deportivos en visualizaciones, análisis y contenidos comprensibles para aficionados, periodistas y comunidades futboleras.",
         technologies: [
@@ -101,7 +101,7 @@ const content: Record<
     sectionLabel: "03. PROJECTS",
     title: "Projects in development",
     introduction:
-      "Personal projects developed progressively to apply cybersecurity, software development, and data analysis knowledge.",
+      "Personal projects developed progressively.",
     progressLabel: "project_progress",
     repositoryAvailable: "View repository",
     repositorySoon: "Repository coming soon",

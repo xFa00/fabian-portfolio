@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://fabianchiran.dev"),
 
   title: {
-    default: "Fabián Chiran | Cybersecurity Portfolio",
+    default: "Fabián Chiran | Portfolio",
     template: "%s | Fabián Chiran",
   },
 
@@ -45,14 +45,14 @@ export const metadata: Metadata = {
     locale: "es_CO",
     url: "https://fabianchiran.dev",
     siteName: "Fabián Chiran",
-    title: "Fabián Chiran | Cybersecurity Portfolio",
+    title: "Fabián Chiran | Portfolio",
     description:
       "Ingeniero de Sistemas enfocado en ciberseguridad, cloud, automatización y análisis de datos.",
   },
 
   twitter: {
     card: "summary_large_image",
-    title: "Fabián Chiran | Cybersecurity Portfolio",
+    title: "Fabián Chiran | Portfolio",
     description:
       "Ingeniero de Sistemas enfocado en ciberseguridad, cloud, automatización y análisis de datos.",
   },

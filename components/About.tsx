@@ -8,22 +8,17 @@ const content = {
     sectionLabel: "01. SOBRE MÍ",
     title: "Perfil profesional",
     paragraphs: [
-      "Soy Ingeniero de Sistemas e Informática con experiencia en infraestructura tecnológica, automatización, análisis de datos y servicios cloud.",
-      "Durante mi práctica profesional en Bancolombia participé en procesos relacionados con Ansible Automation Platform, AWS, Azure Arc, DNS, Python, SQL y validación de inventarios tecnológicos.",
-      "Actualmente estoy orientando mi carrera hacia la ciberseguridad, con interés en seguridad cloud, DevSecOps, AppSec, threat hunting y automatización de procesos de seguridad.",
-      "Me interesa construir soluciones técnicas útiles, comprender cómo funcionan los sistemas y continuar desarrollando conocimientos tanto defensivos como ofensivos.",
+      "Ingeniero de Sistemas e Informática con experiencia en infraestructura tecnológica, automatización, ciberseguridad, análisis de datos y servicios cloud.",
+      "Enfoco mi perfil en el diseño y fortalecimiento de soluciones seguras, integrando conocimientos de seguridad cloud, DevSecOps, AppSec, threat hunting y automatización de procesos de seguridad.",
+      "Me interesa comprender los sistemas desde su arquitectura, operación y superficie de ataque, identificar riesgos y contribuir a la construcción de soluciones robustas, automatizadas y seguras, combinando perspectivas defensivas y ofensivas.",
     ],
     educationLabel: "educación",
     degree: "Ingeniería de Sistemas e Informática",
-    university: "Universidad Nacional de Colombia — Sede Medellín",
+    university: "Universidad Nacional de Colombia.",
     period: "2020 — 2026",
     location: "Medellín, Colombia",
-    statusLabel: "estado",
-    status: "En etapa final de formación",
     focusLabel: "enfoque_actual",
-    focus: "Ciberseguridad · Cloud · Automatización",
-    objectiveLabel: "objetivo",
-    objective: "Construir una carrera especializada en ciberseguridad",
+    focus: "Ciberseguridad · Cloud · Automatización · Desarrolllo ",
     profileLabel: "perfil",
     profileValue: "Ingeniero de Sistemas",
   },
@@ -32,22 +27,17 @@ const content = {
     sectionLabel: "01. ABOUT",
     title: "Professional profile",
     paragraphs: [
-      "I am a Systems and Computer Engineer with experience in technology infrastructure, automation, data analysis, and cloud services.",
-      "During my professional internship at Bancolombia, I participated in processes involving Ansible Automation Platform, AWS, Azure Arc, DNS, Python, SQL, and technology inventory validation.",
-      "I am currently directing my career toward cybersecurity, with a particular interest in cloud security, DevSecOps, AppSec, threat hunting, and security process automation.",
-      "I am interested in building useful technical solutions, understanding how systems work, and continuing to develop both defensive and offensive security knowledge.",
+      "Systems and Computer Engineer with experience in technology infrastructure, automation, cybersecurity, data analysis, and cloud services.",
+      "I focus my professional profile on designing and strengthening secure solutions, integrating knowledge of cloud security, DevSecOps, AppSec, threat hunting, and security process automation.",
+      "I am interested in understanding systems from the perspective of architecture, operations, and attack surface, identifying risks, and contributing to the development of robust, automated, and secure solutions by combining defensive and offensive approaches.",
     ],
     educationLabel: "education",
     degree: "Systems and Computer Engineering",
-    university: "National University of Colombia — Medellín Campus",
+    university: "National University of Colombia. ",
     period: "2020 — 2026",
     location: "Medellín, Colombia",
-    statusLabel: "status",
-    status: "Final stage of degree completion",
     focusLabel: "current_focus",
-    focus: "Cybersecurity · Cloud · Automation",
-    objectiveLabel: "objective",
-    objective: "Build a specialized career in cybersecurity",
+    focus: "Cybersecurity · Cloud · Automation · Development",
     profileLabel: "profile",
     profileValue: "Systems Engineer",
   },
@@ -127,16 +117,6 @@ export default function About() {
 
                   <div>
                     <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-neutral-700">
-                      {text.statusLabel}
-                    </p>
-
-                    <p className="mt-2 font-mono text-sm text-neutral-300">
-                      {text.status}
-                    </p>
-                  </div>
-
-                  <div>
-                    <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-neutral-700">
                       {text.focusLabel}
                     </p>
 
@@ -145,15 +125,6 @@ export default function About() {
                     </p>
                   </div>
 
-                  <div>
-                    <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-neutral-700">
-                      {text.objectiveLabel}
-                    </p>
-
-                    <p className="mt-2 font-mono text-sm leading-6 text-neutral-300">
-                      {text.objective}
-                    </p>
-                  </div>
                 </div>
               </div>
 
