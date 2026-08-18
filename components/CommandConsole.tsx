@@ -337,6 +337,7 @@ export default function CommandConsole() {
   const [history, setHistory] = useState<HistoryEntry[]>([]);
   const [commandHistory, setCommandHistory] = useState<string[]>([]);
   const [historyIndex, setHistoryIndex] = useState(-1);
+  const [viewportHeight, setViewportHeight] = useState<number | null>(null);
 
   const inputRef = useRef<HTMLInputElement>(null);
   const outputRef = useRef<HTMLDivElement>(null);
@@ -511,6 +512,48 @@ export default function CommandConsole() {
   useEffect(() => {
     if (!isOpen) return;
 
+    const updateViewportHeight = () => {
+      const height =
+        window.visualViewport?.height ?? window.innerHeight;
+
+      setViewportHeight(height);
+    };
+
+    updateViewportHeight();
+
+    window.visualViewport?.addEventListener(
+      "resize",
+      updateViewportHeight,
+    );
+
+    window.visualViewport?.addEventListener(
+      "scroll",
+      updateViewportHeight,
+    );
+
+    window.addEventListener("resize", updateViewportHeight);
+
+    return () => {
+      window.visualViewport?.removeEventListener(
+        "resize",
+        updateViewportHeight,
+      );
+
+      window.visualViewport?.removeEventListener(
+        "scroll",
+        updateViewportHeight,
+      );
+
+      window.removeEventListener(
+        "resize",
+        updateViewportHeight,
+      );
+    };
+  }, [isOpen]);
+
+  useEffect(() => {
+    if (!isOpen) return;
+
     inputRef.current?.focus();
 
     const previousOverflow = document.body.style.overflow;
@@ -552,7 +595,19 @@ export default function CommandConsole() {
             }
           }}
         >
-          <div className="flex h-[88dvh] w-full max-w-3xl flex-col overflow-hidden border border-green-400/30 bg-black shadow-[0_0_60px_rgba(34,197,94,0.12)] sm:h-auto sm:max-h-[85vh]">
+          <div
+            className="flex w-full max-w-3xl flex-col overflow-hidden border border-green-400/30 bg-black shadow-[0_0_60px_rgba(34,197,94,0.12)] sm:max-h-[85vh]"
+            style={{
+              height:
+                viewportHeight !== null
+                  ? `calc(${viewportHeight}px - 16px)`
+                  : "88dvh",
+              maxHeight:
+                viewportHeight !== null
+                  ? `calc(${viewportHeight}px - 16px)`
+                  : "88dvh",
+            }}
+          >
             <div className="flex shrink-0 items-center justify-between border-b border-green-400/15 px-4 py-3 sm:px-5 sm:py-4">
               <div className="flex min-w-0 items-center gap-3">
                 <span className="h-2 w-2 shrink-0 animate-pulse rounded-full bg-green-400" />
