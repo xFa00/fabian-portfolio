@@ -337,7 +337,6 @@ export default function CommandConsole() {
   const [history, setHistory] = useState<HistoryEntry[]>([]);
   const [commandHistory, setCommandHistory] = useState<string[]>([]);
   const [historyIndex, setHistoryIndex] = useState(-1);
-  const [viewportHeight, setViewportHeight] = useState<number | null>(null);
 
   const inputRef = useRef<HTMLInputElement>(null);
   const outputRef = useRef<HTMLDivElement>(null);
@@ -512,48 +511,6 @@ export default function CommandConsole() {
   useEffect(() => {
     if (!isOpen) return;
 
-    const updateViewportHeight = () => {
-      const height =
-        window.visualViewport?.height ?? window.innerHeight;
-
-      setViewportHeight(height);
-    };
-
-    updateViewportHeight();
-
-    window.visualViewport?.addEventListener(
-      "resize",
-      updateViewportHeight,
-    );
-
-    window.visualViewport?.addEventListener(
-      "scroll",
-      updateViewportHeight,
-    );
-
-    window.addEventListener("resize", updateViewportHeight);
-
-    return () => {
-      window.visualViewport?.removeEventListener(
-        "resize",
-        updateViewportHeight,
-      );
-
-      window.visualViewport?.removeEventListener(
-        "scroll",
-        updateViewportHeight,
-      );
-
-      window.removeEventListener(
-        "resize",
-        updateViewportHeight,
-      );
-    };
-  }, [isOpen]);
-
-  useEffect(() => {
-    if (!isOpen) return;
-
     inputRef.current?.focus();
 
     const previousOverflow = document.body.style.overflow;
@@ -588,32 +545,20 @@ export default function CommandConsole() {
           role="dialog"
           aria-modal="true"
           aria-label={text.consoleLabel}
-          className="fixed inset-0 z-[100] flex items-end justify-center bg-black/90 p-2 backdrop-blur-sm sm:items-center sm:px-4"
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 px-3 backdrop-blur-sm sm:px-4"
           onMouseDown={(event) => {
             if (event.target === event.currentTarget) {
               closeConsole();
             }
           }}
         >
-          <div
-            className="flex w-full max-w-3xl flex-col overflow-hidden border border-green-400/30 bg-black shadow-[0_0_60px_rgba(34,197,94,0.12)] sm:max-h-[85vh]"
-            style={{
-              height:
-                viewportHeight !== null
-                  ? `calc(${viewportHeight}px - 16px)`
-                  : "88dvh",
-              maxHeight:
-                viewportHeight !== null
-                  ? `calc(${viewportHeight}px - 16px)`
-                  : "88dvh",
-            }}
-          >
-            <div className="flex shrink-0 items-center justify-between border-b border-green-400/15 px-4 py-3 sm:px-5 sm:py-4">
-              <div className="flex min-w-0 items-center gap-3">
+          <div className="flex h-[62dvh] w-full max-w-3xl flex-col overflow-hidden border border-green-400/30 bg-black shadow-[0_0_60px_rgba(34,197,94,0.12)] sm:h-auto sm:max-h-[85vh]">
+            <div className="flex shrink-0 items-center justify-between border-b border-green-400/15 px-3 py-2.5 sm:px-5 sm:py-4">
+              <div className="flex min-w-0 items-center gap-2 sm:gap-3">
                 <span className="h-2 w-2 shrink-0 animate-pulse rounded-full bg-green-400" />
 
                 <div className="min-w-0">
-                  <p className="truncate font-mono text-xs uppercase tracking-[0.16em] text-green-400 sm:tracking-[0.2em]">
+                  <p className="truncate font-mono text-[10px] uppercase tracking-[0.14em] text-green-400 sm:text-xs sm:tracking-[0.2em]">
                     Portfolio Console
                   </p>
 
@@ -627,7 +572,7 @@ export default function CommandConsole() {
                 type="button"
                 onClick={closeConsole}
                 aria-label={text.closeConsole}
-                className="shrink-0 px-2 py-1 font-mono text-xs text-neutral-600 transition hover:text-green-400"
+                className="shrink-0 px-2 py-1 font-mono text-[10px] text-neutral-600 transition hover:text-green-400 sm:text-xs"
               >
                 ESC
               </button>
@@ -635,19 +580,19 @@ export default function CommandConsole() {
 
             <div
               ref={outputRef}
-              className="min-h-0 flex-1 space-y-6 overflow-y-auto overflow-x-hidden px-4 py-4 sm:space-y-7 sm:p-5"
+              className="min-h-0 flex-1 space-y-4 overflow-y-auto overflow-x-hidden px-3 py-3 sm:space-y-7 sm:p-5"
             >
               {history.map((entry, index) => (
                 <div
                   key={`${entry.command}-${index}`}
                   className="min-w-0"
                 >
-                  <p className="break-words font-mono text-xs text-green-400">
+                  <p className="break-words font-mono text-[10px] text-green-400 sm:text-xs">
                     <span className="mr-2 text-neutral-700">&gt;</span>
                     {entry.command}
                   </p>
 
-                  <pre className="mt-3 max-w-full whitespace-pre-wrap break-words font-mono text-[11px] leading-5 text-neutral-400 sm:text-sm sm:leading-6">
+                  <pre className="mt-2 max-w-full whitespace-pre-wrap break-words font-mono text-[10px] leading-4 text-neutral-400 sm:mt-3 sm:text-sm sm:leading-6">
                     {entry.response}
                   </pre>
                 </div>
@@ -655,18 +600,18 @@ export default function CommandConsole() {
 
               <span
                 aria-hidden="true"
-                className="terminal-cursor inline-block h-4 w-[2px] bg-green-400"
+                className="terminal-cursor inline-block h-3 w-[2px] bg-green-400 sm:h-4"
               />
             </div>
 
-            <div className="shrink-0 border-t border-neutral-900 px-4 py-3 sm:px-5">
-              <div className="flex flex-wrap gap-2">
+            <div className="shrink-0 border-t border-neutral-900 px-3 py-2 sm:px-5 sm:py-3">
+              <div className="flex gap-2 overflow-x-auto">
                 {quickCommands.map((command) => (
                   <button
                     key={command}
                     type="button"
                     onClick={() => executeCommand(command)}
-                    className="border border-neutral-900 px-2.5 py-1.5 font-mono text-[9px] text-neutral-600 transition hover:border-green-400/40 hover:text-green-400 sm:px-3 sm:text-[10px]"
+                    className="shrink-0 border border-neutral-900 px-2 py-1 font-mono text-[8px] text-neutral-600 transition hover:border-green-400/40 hover:text-green-400 sm:px-3 sm:py-1.5 sm:text-[10px]"
                   >
                     {command}
                   </button>
@@ -676,10 +621,10 @@ export default function CommandConsole() {
 
             <form
               onSubmit={handleSubmit}
-              className="shrink-0 border-t border-neutral-900 px-4 py-3 sm:px-5 sm:py-4"
+              className="shrink-0 border-t border-neutral-900 px-3 py-2.5 sm:px-5 sm:py-4"
             >
               <div className="flex items-center gap-2 sm:gap-3">
-                <span className="shrink-0 font-mono text-sm text-green-400">
+                <span className="shrink-0 font-mono text-xs text-green-400 sm:text-sm">
                   &gt;
                 </span>
 
@@ -693,12 +638,12 @@ export default function CommandConsole() {
                   spellCheck={false}
                   aria-label={text.inputLabel}
                   placeholder={text.inputPlaceholder}
-                  className="min-w-0 flex-1 bg-transparent font-mono text-sm text-white outline-none placeholder:text-neutral-700"
+                  className="min-w-0 flex-1 bg-transparent font-mono text-xs text-white outline-none placeholder:text-neutral-700 sm:text-sm"
                 />
 
                 <button
                   type="submit"
-                  className="shrink-0 border border-neutral-800 px-2.5 py-2 font-mono text-[9px] tracking-widest text-neutral-500 transition hover:border-green-400 hover:text-green-400 sm:px-3 sm:text-[10px]"
+                  className="shrink-0 border border-neutral-800 px-2 py-1.5 font-mono text-[8px] tracking-wider text-neutral-500 transition hover:border-green-400 hover:text-green-400 sm:px-3 sm:py-2 sm:text-[10px]"
                 >
                   {text.execute}
                 </button>
