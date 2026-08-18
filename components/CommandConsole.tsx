@@ -164,7 +164,7 @@ clear           Clear console
 
     whoami: `
 Fabián Chiran
-Systems and Computer Engineer.
+Systems Engineer.
 
 FOCUS
 Cybersecurity · Cloud · Automation · Data
@@ -177,7 +177,7 @@ Available for opportunities
     `.trim(),
 
     about: `
-Systems and Computer Engineer with experience in infrastructure,
+Systems Engineer with experience in infrastructure,
 automation, data analysis, and cloud environments.
 
 Currently building a career in cybersecurity, with an interest in:
@@ -293,8 +293,8 @@ const interfaceText = {
     openCv: "Abriendo hoja de vida...",
     openGithub: "Abriendo perfil de GitHub...",
     openLinkedin: "Abriendo perfil de LinkedIn...",
-    historyHint: "↑ ↓ historial de comandos",
-    shortcutHint: "⌘ K abrir · ESC cerrar",
+    historyHint: "↑ ↓ historial",
+    shortcutHint: "⌘ K · ESC",
   },
 
   en: {
@@ -313,8 +313,8 @@ const interfaceText = {
     openCv: "Opening résumé...",
     openGithub: "Opening GitHub profile...",
     openLinkedin: "Opening LinkedIn profile...",
-    historyHint: "↑ ↓ command history",
-    shortcutHint: "⌘ K toggle · ESC close",
+    historyHint: "↑ ↓ history",
+    shortcutHint: "⌘ K · ESC",
   },
 };
 
@@ -380,9 +380,7 @@ export default function CommandConsole() {
   const executeCommand = (rawCommand?: string) => {
     const command = (rawCommand ?? input).trim().toLowerCase();
 
-    if (!command) {
-      return;
-    }
+    if (!command) return;
 
     setCommandHistory((current) => [
       ...current.filter((item) => item !== command),
@@ -399,7 +397,6 @@ export default function CommandConsole() {
           response: text.clearMessage,
         },
       ]);
-
       return;
     }
 
@@ -431,7 +428,6 @@ export default function CommandConsole() {
         command,
         `${text.unknownCommand}: "${command}".\n${text.unknownHelp}`,
       );
-
       return;
     }
 
@@ -538,7 +534,7 @@ export default function CommandConsole() {
         type="button"
         onClick={openConsole}
         aria-label={text.openConsole}
-        className="fixed bottom-6 right-6 z-40 flex h-12 items-center gap-2 border border-green-400/40 bg-black/90 px-4 font-mono text-xs text-green-400 shadow-[0_0_24px_rgba(34,197,94,0.12)] backdrop-blur-md transition duration-300 hover:border-green-400 hover:bg-green-400 hover:text-black"
+        className="fixed bottom-4 right-4 z-40 flex h-11 items-center gap-2 border border-green-400/40 bg-black/90 px-3 font-mono text-xs text-green-400 shadow-[0_0_24px_rgba(34,197,94,0.12)] backdrop-blur-md transition duration-300 hover:border-green-400 hover:bg-green-400 hover:text-black sm:bottom-6 sm:right-6 sm:h-12 sm:px-4"
       >
         <span className="text-base">&gt;_</span>
         <span className="hidden sm:inline">CMD K</span>
@@ -549,20 +545,20 @@ export default function CommandConsole() {
           role="dialog"
           aria-modal="true"
           aria-label={text.consoleLabel}
-          className="fixed inset-0 z-[100] flex items-center justify-center bg-black/85 px-4 backdrop-blur-sm"
+          className="fixed inset-0 z-[100] flex items-end justify-center bg-black/90 p-2 backdrop-blur-sm sm:items-center sm:px-4"
           onMouseDown={(event) => {
             if (event.target === event.currentTarget) {
               closeConsole();
             }
           }}
         >
-          <div className="flex max-h-[85vh] w-full max-w-3xl flex-col overflow-hidden border border-green-400/30 bg-black shadow-[0_0_60px_rgba(34,197,94,0.12)]">
-            <div className="flex items-center justify-between border-b border-green-400/15 px-5 py-4">
-              <div className="flex items-center gap-3">
-                <span className="h-2 w-2 animate-pulse rounded-full bg-green-400" />
+          <div className="flex h-[88dvh] w-full max-w-3xl flex-col overflow-hidden border border-green-400/30 bg-black shadow-[0_0_60px_rgba(34,197,94,0.12)] sm:h-auto sm:max-h-[85vh]">
+            <div className="flex shrink-0 items-center justify-between border-b border-green-400/15 px-4 py-3 sm:px-5 sm:py-4">
+              <div className="flex min-w-0 items-center gap-3">
+                <span className="h-2 w-2 shrink-0 animate-pulse rounded-full bg-green-400" />
 
-                <div>
-                  <p className="font-mono text-xs uppercase tracking-[0.2em] text-green-400">
+                <div className="min-w-0">
+                  <p className="truncate font-mono text-xs uppercase tracking-[0.16em] text-green-400 sm:tracking-[0.2em]">
                     Portfolio Console
                   </p>
 
@@ -576,7 +572,7 @@ export default function CommandConsole() {
                 type="button"
                 onClick={closeConsole}
                 aria-label={text.closeConsole}
-                className="font-mono text-xs text-neutral-600 transition hover:text-green-400"
+                className="shrink-0 px-2 py-1 font-mono text-xs text-neutral-600 transition hover:text-green-400"
               >
                 ESC
               </button>
@@ -584,16 +580,19 @@ export default function CommandConsole() {
 
             <div
               ref={outputRef}
-              className="min-h-64 flex-1 space-y-7 overflow-y-auto p-5 md:min-h-80"
+              className="min-h-0 flex-1 space-y-6 overflow-y-auto overflow-x-hidden px-4 py-4 sm:space-y-7 sm:p-5"
             >
               {history.map((entry, index) => (
-                <div key={`${entry.command}-${index}`}>
-                  <p className="font-mono text-xs text-green-400">
+                <div
+                  key={`${entry.command}-${index}`}
+                  className="min-w-0"
+                >
+                  <p className="break-words font-mono text-xs text-green-400">
                     <span className="mr-2 text-neutral-700">&gt;</span>
                     {entry.command}
                   </p>
 
-                  <pre className="mt-3 whitespace-pre-wrap font-mono text-xs leading-6 text-neutral-400 md:text-sm">
+                  <pre className="mt-3 max-w-full whitespace-pre-wrap break-words font-mono text-[11px] leading-5 text-neutral-400 sm:text-sm sm:leading-6">
                     {entry.response}
                   </pre>
                 </div>
@@ -605,14 +604,14 @@ export default function CommandConsole() {
               />
             </div>
 
-            <div className="border-t border-neutral-900 px-5 py-3">
-              <div className="flex gap-2 overflow-x-auto pb-1">
+            <div className="shrink-0 border-t border-neutral-900 px-4 py-3 sm:px-5">
+              <div className="flex flex-wrap gap-2">
                 {quickCommands.map((command) => (
                   <button
                     key={command}
                     type="button"
                     onClick={() => executeCommand(command)}
-                    className="shrink-0 border border-neutral-900 px-3 py-1.5 font-mono text-[10px] text-neutral-600 transition hover:border-green-400/40 hover:text-green-400"
+                    className="border border-neutral-900 px-2.5 py-1.5 font-mono text-[9px] text-neutral-600 transition hover:border-green-400/40 hover:text-green-400 sm:px-3 sm:text-[10px]"
                   >
                     {command}
                   </button>
@@ -622,32 +621,36 @@ export default function CommandConsole() {
 
             <form
               onSubmit={handleSubmit}
-              className="flex items-center gap-3 border-t border-neutral-900 px-5 py-4"
+              className="shrink-0 border-t border-neutral-900 px-4 py-3 sm:px-5 sm:py-4"
             >
-              <span className="font-mono text-sm text-green-400">&gt;</span>
+              <div className="flex items-center gap-2 sm:gap-3">
+                <span className="shrink-0 font-mono text-sm text-green-400">
+                  &gt;
+                </span>
 
-              <input
-                ref={inputRef}
-                type="text"
-                value={input}
-                onChange={(event) => setInput(event.target.value)}
-                onKeyDown={handleInputKeyDown}
-                autoComplete="off"
-                spellCheck={false}
-                aria-label={text.inputLabel}
-                placeholder={text.inputPlaceholder}
-                className="min-w-0 flex-1 bg-transparent font-mono text-sm text-white outline-none placeholder:text-neutral-700"
-              />
+                <input
+                  ref={inputRef}
+                  type="text"
+                  value={input}
+                  onChange={(event) => setInput(event.target.value)}
+                  onKeyDown={handleInputKeyDown}
+                  autoComplete="off"
+                  spellCheck={false}
+                  aria-label={text.inputLabel}
+                  placeholder={text.inputPlaceholder}
+                  className="min-w-0 flex-1 bg-transparent font-mono text-sm text-white outline-none placeholder:text-neutral-700"
+                />
 
-              <button
-                type="submit"
-                className="border border-neutral-800 px-3 py-2 font-mono text-[10px] tracking-widest text-neutral-500 transition hover:border-green-400 hover:text-green-400"
-              >
-                {text.execute}
-              </button>
+                <button
+                  type="submit"
+                  className="shrink-0 border border-neutral-800 px-2.5 py-2 font-mono text-[9px] tracking-widest text-neutral-500 transition hover:border-green-400 hover:text-green-400 sm:px-3 sm:text-[10px]"
+                >
+                  {text.execute}
+                </button>
+              </div>
             </form>
 
-            <div className="flex items-center justify-between border-t border-neutral-900 px-5 py-3 font-mono text-[9px] text-neutral-800">
+            <div className="hidden shrink-0 items-center justify-between border-t border-neutral-900 px-5 py-3 font-mono text-[9px] text-neutral-800 sm:flex">
               <span>{text.historyHint}</span>
               <span>{text.shortcutHint}</span>
             </div>
