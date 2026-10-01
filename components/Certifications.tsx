@@ -132,7 +132,8 @@ const content: Record<
         title: "AWS Certified AI Practitioner",
         issuer: "Amazon Web Services",
         year: "2026",
-        status: "progress",
+        status: "completed",
+        credentialUrl: "https://www.credly.com/badges/906afcdd-5e0f-4aa4-9f91-9be52c11f426/public_url",
         description:
           "Preparación en fundamentos de inteligencia artificial, machine learning, IA generativa y servicios de AWS relacionados.",
         skills: [
@@ -251,7 +252,8 @@ const content: Record<
         title: "AWS Certified AI Practitioner",
         issuer: "Amazon Web Services",
         year: "2026",
-        status: "progress",
+        status: "completed",
+        credentialUrl: "https://www.credly.com/badges/906afcdd-5e0f-4aa4-9f91-9be52c11f426/public_url",
         description:
           "Preparation covering artificial intelligence, machine learning, generative AI, and related AWS services.",
         skills: [

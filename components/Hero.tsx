@@ -21,7 +21,7 @@ const content = {
   en: {
     eyebrow: "Portfolio / Cybersecurity",
     description:
-      "Systems Engineer focused on cybersecurity, cloud infrastructure, automation, and data analysis.",
+      "Systems Engineer focused on cybersecurity, cloud infrastructure, automation, development, and data analysis.",
     locationLabel: "location",
     location: "Medellín, Colombia",
     statusLabel: "status",

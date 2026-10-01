@@ -24,7 +24,7 @@ const translations = {
      "Do you have a project in mind or need to strengthen your technology environment? Get in touch and let’s discuss how I can help you build secure, efficient solutions tailored to your needs.",
     conversation: "Start a conversation",
     channels: "Available channels",
-    cv: "Download résumé",
+    cv: "Download CV",
     availability: "Available",
     location: "Medellín, Colombia",
   },
