@@ -49,7 +49,7 @@ const content: Record<
         number: "01",
         title: "Urkunina Scan",
         status: "EN PROGRESO",
-        progress: 18,
+        progress: 22,
         description:
           "Plataforma modular para descubrir, correlacionar, priorizar y reportar vulnerabilidades en pequeñas organizaciones.",
         details:
@@ -62,7 +62,7 @@ const content: Record<
           "PostgreSQL",
           "Docker",
         ],
-        repository: "",
+        repository: "https://github.com/xFa00/urkunina-scan",
       },
 
       {
@@ -111,7 +111,7 @@ const content: Record<
         number: "01",
         title: "Urkunina Scan",
         status: "IN PROGRESS",
-        progress: 18,
+        progress: 22,
         description:
           "A modular platform designed to discover, correlate, prioritize, and report vulnerabilities for small organizations.",
         details:
@@ -124,7 +124,7 @@ const content: Record<
           "PostgreSQL",
           "Docker",
         ],
-        repository: "",
+        repository: "https://github.com/xFa00/urkunina-scan",
       },
 
       {

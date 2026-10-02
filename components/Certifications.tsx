@@ -255,7 +255,7 @@ const content: Record<
         status: "completed",
         credentialUrl: "https://www.credly.com/badges/906afcdd-5e0f-4aa4-9f91-9be52c11f426/public_url",
         description:
-          "Preparation covering artificial intelligence, machine learning, generative AI, and related AWS services.",
+          "Certification focused on artificial intelligence fundamentals, machine learning, generative AI, responsible AI, and AWS services for AI-powered solutions.",
         skills: [
           "Artificial Intelligence",
           "Machine Learning",
